@@ -4,16 +4,56 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9132e0a9-eb11-40bc-9c47-dde5c170b2f3" name="Changes" comment="" />
+    <list default="true" id="9132e0a9-eb11-40bc-9c47-dde5c170b2f3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/anthony/catmail.drawio.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/anthony/data/client/accounts.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/anthony/data/client/drafts.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/anthony/data/client/inbox_cache.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/anthony/data/server/messages.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/anthony/data/server/not_received.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/anthony/data/server/users.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/remote/client/MailClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/remote/client/MailClientImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/remote/server/MailServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/remote/server/MailServerImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/usable/Account.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/usable/Mail.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/usable/TextColor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/anthony/rmiClasses/DistributedClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/anthony/rmiClasses/RegistryServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/anthony/App.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="2e5p3qqnxFZRbaouRxFdBkS1qZ9" />
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2eHa76E9HV6SYCIitIdxAdyjSgA" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -21,24 +61,53 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Application.App.executor": "Run",
+    "Application.hello.executor": "Run",
+    "Application.test.executor": "Run",
+    "Maven.email_Server [clean].executor": "Run",
+    "Maven.email_Server [compile].executor": "Run",
+    "Maven.email_Server [install].executor": "Run",
+    "Maven.email_Server [package].executor": "Run",
+    "Maven.email_Server [site].executor": "Run",
+    "Maven.email_Server [test].executor": "Run",
+    "Maven.email_Server [validate].executor": "Run",
+    "Maven.email_Server [verify].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "1-define-classes",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/antony rizk/Desktop/battleshipjavafx/email_Server/src/main/java/anthony",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.importing",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\antony rizk\Desktop\battleshipjavafx\email_Server\src\main\java\anthony" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\antony rizk\Desktop\battleshipjavafx\email_Server\src\main\java\anthony\data\client" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="9132e0a9-eb11-40bc-9c47-dde5c170b2f3" name="Changes" comment="" />
-      <created>1711204098313</created>
+      <created>1711563787039</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1711204098313</updated>
-      <workItem from="1711204099393" duration="3000" />
+      <updated>1711563787039</updated>
+      <workItem from="1711563788142" duration="108000" />
+      <workItem from="1712228299980" duration="17000" />
+      <workItem from="1713028096809" duration="14398000" />
     </task>
     <servers />
   </component>
