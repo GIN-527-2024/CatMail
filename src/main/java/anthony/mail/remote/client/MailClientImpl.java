@@ -11,7 +11,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MailClientImpl extends UnicastRemoteObject implements MailClient{
+public class MailClientImpl extends UnicastRemoteObject {
 
 
     private ArrayList<Account> account = new ArrayList<Account>();

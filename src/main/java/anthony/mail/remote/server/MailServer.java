@@ -6,6 +6,7 @@ import anthony.mail.usable.Mail;
 public interface MailServer extends Remote{
 
     public void setup() throws RemoteException;
+    public void login() throws RemoteException;
     public void register(Account user) throws RemoteException;
     public boolean validateAccount(String email, String password) throws RemoteException;
 
