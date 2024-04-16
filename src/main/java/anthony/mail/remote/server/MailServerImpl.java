@@ -1,11 +1,13 @@
 package anthony.mail.remote.server;
 
-import anthony.mail.usable.Account;
+import anthony.mail.usable.*;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Scanner;
+import java.io.*;  
+import java.io.IOException;  
+
 
 public class MailServerImpl extends UnicastRemoteObject implements MailServer {
 
@@ -29,55 +31,39 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
     }
 
     @Override
-    public void registerEmail() throws RemoteException {
+    public void register(Account user ) throws RemoteException {
 
-        Scanner input = new Scanner(System.in);
-        String email ;
-        String name  ;
-        String password ;
-        final int MIN_NAME_SIZE = 3;
+        String email=user.getEmail() ;
+        // String name =user.getFullName() ;
+        // String password=user.getPassword() ;
 
         //code to validate the full name
-        do{
-            System.out.println("Enter your name: ");
-            name = input.next();
-        }while(name.length() <= MIN_NAME_SIZE );
-
-
-        boolean validAccount;
-        do {
-
-            System.out.println("Enter your email: ");
-            email = input.next();
-            validAccount = validateEmail(email);
-
-            if(!validAccount) System.err.println("The email is not in correct format:" +
-                    "\nFormat: local-part@domain-part  (domain part includes the suffixes .com .edu");
-        } while (!validAccount);
-
-        boolean passwordMatch;
-        boolean passwordformat;
-        do{
-            String dupPassword ;
-            System.out.println("Enter your password");
-            password = input.next();
-            System.out.println("Enter you password again");
-            dupPassword = input.next();
-
-            passwordMatch = password.equals(dupPassword);
-            passwordformat = isValidPassword(password);
-
-            if(!passwordMatch) System.err.println("The passwords don't match" +
-                    "\nTry Again....");
-            if(!passwordformat) System.err.println("The passwords don't match" +
-                    "\nTry Again....");
-
-        }while(!passwordMatch ||  !passwordformat);
-
-        Account account = new Account(name, email, password);
-        saveEmail(account);
+        save(user);
+        new File("/users/"+email).mkdirs(); //here i am making a directory with a name property the email of the user.
+       
 
         System.out.println("Your account is successfully created");
+
+    }
+    public boolean send(Mail mail) throws RemoteException{
+      String to =mail.getTo();
+      String from =mail.getFrom();
+       new File("/users/"+to+"/"+from).mkdirs();
+       File f = new File("/users/" + to + "/" + from + "/"+mail.getSubject()+".txt");
+        // i think it would be better instead of subject if we add an id for each mail and store the mail by id
+
+      try{
+         FileOutputStream fos= new FileOutputStream(f);
+      ObjectOutputStream obj =new ObjectOutputStream(fos);
+      obj.writeObject(mail);
+        obj.close();
+        fos.close();
+        return true;
+      }catch(IOException e){
+          System.out.println(e);
+          return false;
+      }
+    
 
     }
 
@@ -90,30 +76,17 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
     private boolean userFound(String userEmail)  {
         return false;
     }
-
-    public static boolean isValidPassword(String password) {
-        // Minimum 8 characters
-        if (password.length() < 8) {
-            return false;
-        }
-
-        // Contains at least one digit
-        if (!password.matches(".*\\d.*")) {
-            return false;
-        }
-
-        // Contains at least one special character (!, @, #, or $)
-        if (!password.matches(".*[!@#$].*")) {
-            return false;
-        }
-
-        // All criteria passed, password is valid
-        return true;
+    public Mail[] getEmails() throws RemoteException{
+        return null;
     }
 
+    public boolean saveDraft(Mail draft) throws RemoteException{
+        return false;
+    }
+   
 
 
-    private void saveEmail(Account email){
+    private void save(Account user){
 
     }
 

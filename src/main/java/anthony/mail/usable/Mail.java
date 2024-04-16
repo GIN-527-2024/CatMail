@@ -1,9 +1,10 @@
 package anthony.mail.usable;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Scanner;
 
-public class Mail {
+
+public class Mail implements Serializable{
 
     private String from;
     private String to;

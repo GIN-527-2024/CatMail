@@ -34,10 +34,32 @@ public class Account {
         this.fullName = fullName;
     }
 
-
-    public void setPassword(String password) {
-        this.password = password;
+    private void setPassword(String password){
+        this.password=password;
     }
+    public void setPassword(String password,String dupPassword) {
+        boolean passwordMatch;
+        boolean passwordformat;
+       
+          
+            passwordMatch = password.equals(dupPassword);
+            passwordformat = isValidPassword(password);
+           if(!passwordMatch ) {
+                throw new IllegalArgumentException("Passwords do not match");
+            }
+            else if(!passwordformat){
+                throw new IllegalArgumentException("Password must be at least 8 characters long, contain at least one digit, and contain at least one special character (!, @, #, or $)");
+            }
+            else{
+                this.password = password;
+           }
+            
+
+    }
+    public String getPassword(){ // we could find a way so we can add a specific input to this method to allow someone to use it .
+
+        return password;
+    };
 
     @Override
     public String toString() {
@@ -56,5 +78,25 @@ public class Account {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
+    private static boolean isValidPassword(String password) {
+        // Minimum 8 characters
+        if (password.length() < 8) {
+            return false;
+        }
+
+        // Contains at least one digit
+        if (!password.matches(".*\\d.*")) {
+            return false;
+        }
+
+        // Contains at least one special character (!, @, #, or $)
+        if (!password.matches(".*[!@#$].*")) {
+            return false;
+        }
+
+        // All criteria passed, password is valid
+        return true;
+    }
+
 
 }
