@@ -6,14 +6,13 @@ import java.util.regex.Pattern;
 public class Account {
 
     private String email;
-    private String fullName;
     private String password;
 
 
     //only constructor with arguments since both copy constructor and default constructor
     // use is irrelevant
 
-    public Account(String fullName,String email, String password){
+    public Account(String email, String password){
         setEmail(email);
         setPassword(password);
     }
@@ -24,14 +23,6 @@ public class Account {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
 
     private void setPassword(String password){
@@ -64,7 +55,6 @@ public class Account {
     @Override
     public String toString() {
         return "Account{" +
-                "fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }

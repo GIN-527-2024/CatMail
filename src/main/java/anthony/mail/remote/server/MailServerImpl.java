@@ -24,11 +24,12 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
     public void setup() throws RemoteException {
 
     }
-    public void login(Account user) throws RemoteException{
+    public boolean login(Account user) throws RemoteException{
         String email = user.getEmail();
         String password = user.getPassword();
         validateAccount(email, password);
 
+        return false;
     }
 
     private boolean validateEmail(String email) {
@@ -36,7 +37,7 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
     }
 
     @Override
-    public void register(Account user ) throws RemoteException {
+    public boolean register(Account user ) throws RemoteException {
 
         String email=user.getEmail() ;
         // String name =user.getFullName() ;
