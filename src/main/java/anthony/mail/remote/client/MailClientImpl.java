@@ -119,7 +119,7 @@ public class MailClientImpl extends UnicastRemoteObject implements MailClient{
 
 
 
-        server.registerEmail();
+        //server.registerEmail();
 
     }
 

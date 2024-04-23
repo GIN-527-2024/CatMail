@@ -1,15 +1,19 @@
 package anthony.mail.usable;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Scanner;
 
-public class Mail {
+//implements serializable in order to be used with the fileoutputstream
+public class Mail implements Serializable {
 
     private String from;
     private String to;
 
     private String subject;
     private String text;
+
+    private boolean seen;
 
     //https://docs.oracle.com/javase/8/docs/api/java/sql/Timestamp.html
     private final Timestamp timestamp;
