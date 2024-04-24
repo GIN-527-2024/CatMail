@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9132e0a9-eb11-40bc-9c47-dde5c170b2f3" name="Changes" comment="">
+
       <change afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/usable/ErrorCodes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -37,17 +38,20 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
   <component name="ProjectId" id="2eHa76E9HV6SYCIitIdxAdyjSgA" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.App.executor": "Run",
@@ -78,7 +82,7 @@
     "settings.editor.selected.configurable": "reference.settings.project.maven.importing",
     "vue.rearranger.settings.migration": "true"
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\antony rizk\Desktop\battleshipjavafx\email_Server\src\main\java\anthony" />
@@ -97,6 +101,7 @@
       <updated>1711563787039</updated>
       <workItem from="1711563788142" duration="108000" />
       <workItem from="1712228299980" duration="17000" />
+
       <workItem from="1713028096809" duration="15003000" />
       <workItem from="1713335227361" duration="2717000" />
       <workItem from="1713440586391" duration="10000" />

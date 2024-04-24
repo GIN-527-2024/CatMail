@@ -1,8 +1,10 @@
 package anthony.mail.usable;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Scanner;
+
 
 //implements serializable in order to be used with the fileoutputstream
 public class Mail implements Serializable {
@@ -67,5 +69,18 @@ public class Mail implements Serializable {
     public void createMail(){
 
     }
-
+    /* public void saveDraft() {
+        String fileName = "/drafts/" + getFrom() + "/" + getSubject() + "-" + timestamp.getTime() + ".ser";
+        try {
+            FileOutputStream fileOut = new FileOutputStream(fileName);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(this);
+            objectOut.close();
+            fileOut.close();
+            System.out.println("Draft saved successfully at: " + fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error occurred while saving draft.");
+        }
+    } */
 }

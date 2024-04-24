@@ -1,12 +1,12 @@
 package anthony.mail.remote.server;
 
-import anthony.mail.usable.Account;
-import anthony.mail.usable.Mail;
+
 
 import java.io.*;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
@@ -34,7 +34,13 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
     public void setup() throws RemoteException {
 
     }
+    public boolean login(Account user) throws RemoteException{
+        String email = user.getEmail();
+        String password = user.getPassword();
+        validateAccount(email, password);
 
+        return false;
+    }
 
     private boolean validateEmail(String email) {
         return !userFound(email) && Account.isValidEmail(email);
@@ -103,6 +109,39 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
 
         return (Mail[]) mails.toArray();
     }
+    public boolean send(Mail mail) throws RemoteException{
+      String to =mail.getTo();
+      if(validateEmail(to)==false){
+          return false;
+      }
+      String from =mail.getFrom();
+      if(validateEmail(from)){
+        return false;
+      }
+       
+       File f = new File("/users/" + to + "/"+mail.getSubject()+".txt");
+       File f2= new File("/users/"+from+"/"+mail.getSubject()+".txt" ); 
+        // i think it would be better instead of subject if we add an id for each mail and store the mail by id
+
+      try{
+      FileOutputStream fos= new FileOutputStream(f);
+      ObjectOutputStream obj =new ObjectOutputStream(fos);
+      obj.writeObject(mail);
+        obj.close();
+        fos.close();
+        FileOutputStream fos2= new FileOutputStream(f2);
+        ObjectOutputStream obj2 =new ObjectOutputStream(fos2);
+        obj2.writeObject(mail);
+          obj2.close();
+          fos2.close();     
+        return true;
+      }catch(IOException e){
+          System.out.println(e);
+          return false;
+      }
+    
+
+    }
 
     @Override
     public Mail[] SentEmail(Account account) throws RemoteException {
@@ -143,6 +182,31 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
        return  search(USER_ACCOUNT_PATH, userEmail);
 
     }
+
+ /*   public Mail[] getEmails(Account user) throws RemoteException{
+        try{
+            File userFolder = new File("/users/"+user.getEmail());
+            File[] files = userFolder.listFiles();
+            Mail[] mails = new Mail[files.length];
+            for (int i =0; i<files.length;i++){
+                for(int j =0;j<files.length;j++){
+                    FileInputStream fis = new FileInputStream(files[j]);
+                    ObjectInputStream obj = new ObjectInputStream(fis);
+                    mails[j] = (Mail)obj.readObject();
+                    obj.close();
+                    fis.close();
+                }
+            }
+            return mails;
+        }catch(IOException e){
+            System.out.println(e);
+            return null;
+        }catch(ClassNotFoundException e){
+            System.out.println(e);
+            return null;
+        } */
+        
+
 
 
 
@@ -187,7 +251,21 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
         return upperCaseMatcher.find() && lowerCaseMatcher.find() && digitMatcher.find() && specialCharMatcher.find();
     }
 
-
+    public boolean saveDraft(Mail draft) throws RemoteException{
+        File f = new File("/users/"+draft.getFrom()+"/drafts/"+draft.getSubject()+".txt");
+        try{
+            FileOutputStream fos= new FileOutputStream(f);
+            ObjectOutputStream obj =new ObjectOutputStream(fos);
+            obj.writeObject(draft);
+            obj.close();
+            fos.close();
+            return true;
+          }catch(IOException e){
+              System.out.println(e);
+              return false;
+          }
+    }
+   
 
     private boolean search(String path,String userEmail){
 
@@ -220,9 +298,8 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
         }
         //the user is not found
         return false;
-
-
     }
+  
     private boolean search(String path, String userEmail, String password){
 
         userEmail = userEmail.toLowerCase();
@@ -255,10 +332,5 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
         }
         //the user is not found
         return false;
-
-
     }
-
-
-
 }

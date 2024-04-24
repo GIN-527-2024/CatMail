@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 public class Account implements Serializable {
 
     private String email;
-    private String fullName;
     private String password;
 
 
@@ -15,7 +14,7 @@ public class Account implements Serializable {
     // use is irrelevant
     //the email is always stored in lowercase
 
-    public Account(String fullName,String email, String password){
+    public Account(String email, String password){
         setEmail(email);
         setPassword(password);
     }
@@ -28,23 +27,36 @@ public class Account implements Serializable {
         this.email = email.toLowerCase();
     }
 
-    public String getFullName() {
-        return fullName;
+    private void setPassword(String password){
+        this.password=password;
     }
+    public void setPassword(String password,String dupPassword) {
+        boolean passwordMatch;
+        boolean passwordformat;
+       
+          
+            passwordMatch = password.equals(dupPassword);
+            passwordformat = isValidPassword(password);
+           if(!passwordMatch ) {
+                throw new IllegalArgumentException("Passwords do not match");
+            }
+            else if(!passwordformat){
+                throw new IllegalArgumentException("Password must be at least 8 characters long, contain at least one digit, and contain at least one special character (!, @, #, or $)");
+            }
+            else{
+                this.password = password;
+           }
+            
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
+    public String getPassword(){ // we could find a way so we can add a specific input to this method to allow someone to use it .
 
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+        return password;
+    };
 
     @Override
     public String toString() {
         return "Account{" +
-                "fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
@@ -58,6 +70,26 @@ public class Account implements Serializable {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
+    private static boolean isValidPassword(String password) {
+        // Minimum 8 characters
+        if (password.length() < 8) {
+            return false;
+        }
+
+        // Contains at least one digit
+        if (!password.matches(".*\\d.*")) {
+            return false;
+        }
+
+        // Contains at least one special character (!, @, #, or $)
+        if (!password.matches(".*[!@#$].*")) {
+            return false;
+        }
+
+        // All criteria passed, password is valid
+        return true;
+    }
+
 
     public String getPassword() {
         return password;
