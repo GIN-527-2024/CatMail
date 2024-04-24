@@ -5,8 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9132e0a9-eb11-40bc-9c47-dde5c170b2f3" name="Changes" comment="">
+
+      <change afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/usable/ErrorCodes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/anthony/mail/client/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/client/UserInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/anthony/mail/remote/client/MailClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/remote/client/MailClientImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/anthony/mail/remote/server/MailServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/remote/server/MailServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/anthony/mail/remote/server/MailServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/remote/server/MailServerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/anthony/mail/usable/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/usable/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/anthony/mail/usable/Mail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/usable/Mail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/anthony/rmiClasses/RegistryServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/anthony/rmiClasses/RegistryServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/anthony/test.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +26,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -41,35 +51,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.App.executor&quot;: &quot;Run&quot;,
-    &quot;Application.hello.executor&quot;: &quot;Run&quot;,
-    &quot;Application.test.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.email_Server [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.email_Server [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.email_Server [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.email_Server [package].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.email_Server [site].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.email_Server [test].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.email_Server [validate].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.email_Server [verify].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;1-define-classes&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/antony rizk/Desktop/battleshipjavafx/email_Server/src/main/java/anthony&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.importing&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.App.executor": "Run",
+    "Application.RegistryServer.executor": "Run",
+    "Application.hello.executor": "Run",
+    "Application.test.executor": "Run",
+    "Maven.email_Server [clean].executor": "Run",
+    "Maven.email_Server [compile].executor": "Run",
+    "Maven.email_Server [install].executor": "Run",
+    "Maven.email_Server [package].executor": "Run",
+    "Maven.email_Server [site].executor": "Run",
+    "Maven.email_Server [test].executor": "Run",
+    "Maven.email_Server [validate].executor": "Run",
+    "Maven.email_Server [verify].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "5-work-on-server-part",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/antony rizk/Desktop/battleshipjavafx/email_Server/src/main/java/anthony",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.importing",
+    "vue.rearranger.settings.migration": "true"
   }
 }</component>
   <component name="RecentsManager">
@@ -90,11 +101,13 @@
       <updated>1711563787039</updated>
       <workItem from="1711563788142" duration="108000" />
       <workItem from="1712228299980" duration="17000" />
-      <workItem from="1713028096809" duration="14398000" />
-      <workItem from="1713425754736" duration="507000" />
-      <workItem from="1713426393777" duration="3926000" />
-      <workItem from="1713430358944" duration="2377000" />
-      <workItem from="1713938488016" duration="398000" />
+
+      <workItem from="1713028096809" duration="15003000" />
+      <workItem from="1713335227361" duration="2717000" />
+      <workItem from="1713440586391" duration="10000" />
+      <workItem from="1713440710690" duration="1581000" />
+      <workItem from="1713447944756" duration="6000" />
+      <workItem from="1713861191383" duration="9118000" />
     </task>
     <servers />
   </component>

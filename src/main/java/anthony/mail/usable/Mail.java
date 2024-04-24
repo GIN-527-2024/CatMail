@@ -6,13 +6,16 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 
-public class Mail implements Serializable{
+//implements serializable in order to be used with the fileoutputstream
+public class Mail implements Serializable {
 
     private String from;
     private String to;
 
     private String subject;
     private String text;
+
+    private boolean seen;
 
     //https://docs.oracle.com/javase/8/docs/api/java/sql/Timestamp.html
     private final Timestamp timestamp;
@@ -66,7 +69,7 @@ public class Mail implements Serializable{
     public void createMail(){
 
     }
-    public void saveDraft() {
+    /* public void saveDraft() {
         String fileName = "/drafts/" + getFrom() + "/" + getSubject() + "-" + timestamp.getTime() + ".ser";
         try {
             FileOutputStream fileOut = new FileOutputStream(fileName);
@@ -79,5 +82,5 @@ public class Mail implements Serializable{
             e.printStackTrace();
             System.err.println("Error occurred while saving draft.");
         }
-    }
+    } */
 }
