@@ -1,9 +1,10 @@
 package anthony.mail.usable;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Account {
+public class Account implements Serializable {
 
     private String email;
     private String password;
@@ -11,6 +12,7 @@ public class Account {
 
     //only constructor with arguments since both copy constructor and default constructor
     // use is irrelevant
+    //the email is always stored in lowercase
 
     public Account(String email, String password){
         setEmail(email);
@@ -22,7 +24,7 @@ public class Account {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email.toLowerCase();
     }
 
     private void setPassword(String password){
@@ -89,4 +91,7 @@ public class Account {
     }
 
 
+    public String getPassword() {
+        return password;
+    }
 }

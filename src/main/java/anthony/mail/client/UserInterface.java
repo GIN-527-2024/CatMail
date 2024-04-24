@@ -8,6 +8,7 @@ import anthony.mail.usable.Mail;
 import java.util.Scanner;
 
 public class UserInterface {
+    private boolean isLoggedIn = false;
     static MailServer mailServerProxy;
     static Scanner scanner = new Scanner(System.in);
     public static void displayMenu(MailServer serverProxy) {
@@ -88,6 +89,7 @@ public class UserInterface {
         MailClient.sendEmailRemote(email);
 
     }
+
    private static void displayEmailsInterface(Account user) {
         System.out.println("Emails: ");
         try{
@@ -100,5 +102,6 @@ public class UserInterface {
         }
     
     }
+
 
 }
