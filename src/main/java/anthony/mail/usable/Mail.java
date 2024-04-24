@@ -82,5 +82,13 @@ public class Mail implements Serializable {
             e.printStackTrace();
             System.err.println("Error occurred while saving draft.");
         }
+
+    }
+    @Override
+    public String toString(){
+        return "From: " + getFrom() + "\nTo: " + getTo() + "\nSubject: " + getSubject() + "\nText: " + getText() + "\nTimestamp: " + getTimestamp();
+    }
+
     } */
+
 }

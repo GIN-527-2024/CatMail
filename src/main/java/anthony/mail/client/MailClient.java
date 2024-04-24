@@ -2,6 +2,8 @@ package anthony.mail.client;
 import anthony.mail.remote.server.MailServer;
 import anthony.mail.usable.*;
 
+import java.io.*;
+
 import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.*;
@@ -59,7 +61,35 @@ public class MailClient {
             System.err.println("Remote Exception: " +e);
         }
     }
+    // a way to end the connection when the client has finished.
+    public static void destroyConnection(){
+        mailServerProxy=null;
+    }
 
+    // a way to get the client emails
+    public static Mail[] getEmails(Account user){
+        try {
+            return mailServerProxy.getEmails(user);
+        } catch (Exception e) {
+            System.err.println("Remote Exception: " +e);
+        }
+        return null;
+    }
+    public static void saveDraft(Mail mail){
+        //save the draft on the client side
+        try{
+            FileOutputStream f=new FileOutputStream("drafts.txt"); //the object willbe written on drafts.txt
+            ObjectOutputStream o=new ObjectOutputStream(f);
+            o.writeObject(mail);
+            o.close();
+            f.close();
+        }
+        catch(IOException e){
+            System.out.println(e);
+
+        }
+
+    }
 
 
 }

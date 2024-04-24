@@ -89,4 +89,19 @@ public class UserInterface {
         MailClient.sendEmailRemote(email);
 
     }
+
+   private static void displayEmailsInterface(Account user) {
+        System.out.println("Emails: ");
+        try{
+            Mail[] mails= mailServerProxy.getEmails(user);
+            for (Mail mail: mails){
+             System.out.println(mail);
+            }
+        } catch (Exception e) {
+            System.err.println("Remote Exception: " +e);
+        }
+    
+    }
+
+
 }
