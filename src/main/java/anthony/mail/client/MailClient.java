@@ -4,6 +4,8 @@ import anthony.mail.usable.*;
 
 import java.io.*;
 
+import static anthony.mail.usable.ErrorCodes.*;
+
 import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.*;
@@ -20,9 +22,9 @@ public class MailClient {
         }
     }
 
-    public static boolean loginRemote(Account user) {
+    public static boolean loginRemote(String email, String password) {
         try {
-            if(!mailServerProxy.login(user)) {
+            if(!mailServerProxy.login(email, password)) {
                 System.out.println("invalid username or password");
                 return false;
             }
@@ -33,16 +35,22 @@ public class MailClient {
         return false;
     }
 
-    public static boolean registerRemote(Account user) {
+    public static boolean registerRemote(String name, String email, String password) {
         try {
-            if(!mailServerProxy.validateAccount(user.getEmail(), user.getPassword())) {
-                System.out.println("invalid format.");
+            int err = mailServerProxy.registerEmail(name, email, password);
+            if (err == NO_ERROR.getCode()) {
+                return true;
+            } else if (err == INVALID_NAME.getCode()) {
+                System.out.println((INVALID_EMAIL.getMessage()));
+                return false;
+            } else if (err == INVALID_NAME.getCode()) {
+                System.out.println((INVALID_EMAIL.getMessage()));
+                return false;
+            } else if (err == INVALID_PASSWORD.getCode()) {
+                System.out.println(INVALID_PASSWORD.getMessage());
                 return false;
             }
-            if(!mailServerProxy.register(user)) {
-                System.out.println("email already exists.");
-                return false;
-            }
+
         } catch (Exception e) {
             System.err.println("Remote Exception: " +e);
             return false;
@@ -67,9 +75,9 @@ public class MailClient {
     }
 
     // a way to get the client emails
-    public static Mail[] getEmails(Account user){
+    public static Mail[] getEmailsRemote(Account user){
         try {
-            return mailServerProxy.getEmails(user);
+            return mailServerProxy.RecievedEmail(user);
         } catch (Exception e) {
             System.err.println("Remote Exception: " +e);
         }
@@ -90,6 +98,3 @@ public class MailClient {
         }
 
     }
-
-
-}
