@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9132e0a9-eb11-40bc-9c47-dde5c170b2f3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/anthony/mail/remote/server/MailServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/remote/server/MailServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/anthony/mail/remote/server/MailServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/remote/server/MailServerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/anthony/mail/usable/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/usable/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/anthony/mail/usable/Mail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/usable/Mail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/anthony/mail/client/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/anthony/mail/client/UserInterface.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +93,8 @@
       <workItem from="1713028096809" duration="14398000" />
       <workItem from="1713425754736" duration="507000" />
       <workItem from="1713426393777" duration="3926000" />
-      <workItem from="1713430358944" duration="2040000" />
+      <workItem from="1713430358944" duration="2377000" />
+      <workItem from="1713938488016" duration="398000" />
     </task>
     <servers />
   </component>
