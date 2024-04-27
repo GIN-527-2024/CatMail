@@ -1,15 +1,15 @@
 package client;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.sql.Timestamp;
 import server.MailServer;
 import usable.Account;
-import usable.Mail;
-
 import static usable.ErrorCodes.*;
 
 import java.io.File;
 import java.rmi.*;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.sql.Timestamp;
+
+import usable.Mail;
 
 public class MailClient {
     static MailServer mailServerProxy;
@@ -22,6 +22,7 @@ public class MailClient {
             Registry registry = LocateRegistry.getRegistry(address, 1177);
 
             MailServer serverProxy = (MailServer) registry.lookup(name);
+
 
             mailServerProxy = serverProxy;
             return serverProxy;
