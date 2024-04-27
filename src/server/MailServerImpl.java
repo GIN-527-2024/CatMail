@@ -22,14 +22,14 @@ import usable.Mail;
 public class MailServerImpl extends UnicastRemoteObject implements MailServer {
 
 
-    private final String USER_ACCOUNT_PATH = "../../../data/server/users.ser";
+    private final String USER_ACCOUNT_PATH = "users.ser";
     private final String MESSAGE_PATH = "../../../data/server/messages.ser";
 
-    public MailServerImpl(String name) throws RemoteException{
+    public MailServerImpl() throws RemoteException{
         super();
 
         try{
-            Naming.rebind(name, this);
+            //
         }catch(Exception e){
             System.err.println(e.getMessage());
         }

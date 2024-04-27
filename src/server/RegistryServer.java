@@ -5,6 +5,8 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Enumeration;
 
 public class RegistryServer {
@@ -14,7 +16,13 @@ public class RegistryServer {
 
 
         try {
-            MailServerImpl server = new MailServerImpl("test") ;
+
+            Registry registry = LocateRegistry.createRegistry(1177);
+
+            MailServerImpl remoteObject = new MailServerImpl() ;
+            registry.rebind("RemoteInterface", remoteObject);
+
+
             System.out.println("The system is up");
             printPrivateIP();
         } catch (RemoteException e) {
