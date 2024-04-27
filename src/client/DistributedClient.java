@@ -11,15 +11,14 @@ import java.rmi.registry.Registry;
 
 public class DistributedClient {
     public static void main(String[] args){
-        //noinspection removal
-//        System.setSecurityManager(new RMISecurityManager());
+//        System.setSecrityManager(new RMISecurityManager());
 
         try {
-            Registry registry = LocateRegistry.getRegistry("localhost", 1177);
+            Registry registry = LocateRegistry.getRegistry("192.168.0.111", 1177);
 
             MailServer remoteObject = (MailServer) registry.lookup("RemoteInterface");
 
-//            System.out.println(remoteObject.validateAccount("anthony", "hamid"));
+            System.out.println(remoteObject.login("anthony", "hamid"));
 
 
         } catch (RemoteException | NotBoundException e) {

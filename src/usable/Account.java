@@ -57,7 +57,7 @@ public class Account implements Serializable {
     @Override
     public String toString() {
         return "Account{" +
-                ", email='" + email + '\'' +
+                "email='" + email + '\'' +
                 '}';
     }
 
