@@ -97,7 +97,8 @@ public class UserInterface {
                     draftsInterface(user);
                     break;
                 case "5":
-                    break;
+                    MailClient.logOut();
+                    return;
                 default:
                     System.out.println("Invalid option. Please choose again.");
             }
@@ -113,6 +114,7 @@ public class UserInterface {
 
         if (to.equals("--savedraft")) {
             FileHandler.saveToDrafts(email);
+            MailClient.reloadDrafts(user.getEmail());
             return;
         }
         email.setTo(to);
@@ -122,6 +124,7 @@ public class UserInterface {
 
         if (subject.equals("--savedraft")) {
             FileHandler.saveToDrafts(email);
+            MailClient.reloadDrafts(user.getEmail());
             return;
         }
         email.setSubject(subject);
@@ -131,6 +134,7 @@ public class UserInterface {
 
         if (text.equals("--savedraft")) {
             FileHandler.saveToDrafts(email);
+            MailClient.reloadDrafts(user.getEmail());
             return;
         }
         email.setText(text);
@@ -140,11 +144,13 @@ public class UserInterface {
             System.out.println("--send or --savedraft");
             input = scanner.next();
         }
-        while (!input.equals("--savedraft") || !input.equals("--send"));
+        while (!input.equals("--savedraft") && !input.equals("--send"));
         if(input.equals("--send"))
             MailClient.sendEmailRemote(email);
-        else
+        else {
             FileHandler.saveToDrafts(email);
+            MailClient.reloadDrafts(user.getEmail());
+        }
             return;
     }
 
@@ -154,19 +160,29 @@ public class UserInterface {
             String input;
             System.out.println("Inbox: ");
             MailClient.refreshInbox(user);
-            Mail[] inbox = FileHandler.getInbox(user);
+            Mail[] inbox = MailClient.inbox;
+            if(inbox.length == 0) {
+                System.out.println("Inbox empty");
+                return;
+            }
             for (Mail mail: inbox) {
-                System.out.println(++i +": ");
-                System.out.println("Subject: " +mail.getSubject() +"\nFrom: " +mail.getFrom());
+                System.out.println(++i + ": ");
+                System.out.println("Subject: " + mail.getSubject() + "\nFrom: " + mail.getFrom());
             }
             System.out.println("Select mail to display, 0 to go back");
             do {
                 input = scanner.next();
-            } while(input.compareTo("0") < 0 || input.compareTo(new String(String.valueOf(inbox.length-1))) > 0);
-            if(input.equals("0")) return;
-            showEmail(inbox[Integer.parseInt(input)]);
+            } while(!input.matches("[0-9]+")); // Check if input is a number
+            int selection = Integer.parseInt(input);
+            if(selection == 0) return;
+            if(selection >= 1 && selection <= inbox.length) {
+                showEmail(inbox[selection - 1]); // Adjust index since the displayed index starts from 1
+            } else {
+                System.out.println("Invalid selection. Please choose an email from the list.");
+            }
         }
     }
+
 
     private static void outboxInterface(Account user) {
         while(true) {
@@ -174,38 +190,54 @@ public class UserInterface {
             String input;
             System.out.println("outbox: ");
             MailClient.refreshOutbox(user);
-            Mail[] outbox = FileHandler.getOutbox(user);
+            Mail[] outbox = MailClient.outbox;
+            if(outbox.length == 0) {
+                System.out.println("Outbox empty");
+                return;
+            }
             for (Mail mail: outbox) {
-                System.out.println(++i +": ");
-                System.out.println("Subject: " +mail.getSubject() +"\nTo: " +mail.getTo());
+                System.out.println(++i + ": ");
+                System.out.println("Subject: " + mail.getSubject() + "\nTo: " + mail.getTo());
             }
             System.out.println("Select mail to display, 0 to go back");
             do {
                 input = scanner.next();
-            } while(input.compareTo("0") < 0 || input.compareTo(new String(String.valueOf(outbox.length-1))) > 0);
-            if(input.equals("0")) return;
-            showEmail(outbox[Integer.parseInt(input)]);
+            } while(!input.matches("[0-9]+")); // Check if input is a number
+            int selection = Integer.parseInt(input);
+            if(selection == 0) return;
+            if(selection >= 1 && selection <= outbox.length) {
+                showEmail(outbox[selection - 1]);
+            } else {
+                System.out.println("Invalid selection. Please choose an email from the list.");
+            }
         }
     }
 
+
     private static void draftsInterface(Account user) {
+        Mail[] drafts = MailClient.drafts;
         while(true) {
             int i = 0;
             String input;
             System.out.println("drafts: ");
-            Mail[] drafts = FileHandler.getDrafts(user);
             for (Mail mail: drafts) {
-                System.out.println(++i +": ");
-                System.out.println("Subject: " +mail.getSubject() +"\nTo: " +mail.getTo());
+                System.out.println(++i + ": ");
+                System.out.println("Subject: " + mail.getSubject() + "\nTo: " + mail.getTo());
             }
             System.out.println("Select draft to edit, 0 to go back");
             do {
                 input = scanner.next();
-            } while(input.compareTo("0") < 0 || input.compareTo(new String(String.valueOf(drafts.length-1))) > 0);
-            if(input.equals("0")) return;
-            // todo: edit draft
+            } while(!input.matches("[0-9]+")); // Check if input is a number
+            int selection = Integer.parseInt(input);
+            if(selection == 0) return;
+            if(selection >= 1 && selection <= drafts.length) {
+                // todo: edit draft using drafts[selection - 1]
+            } else {
+                System.out.println("Invalid selection. Please choose a draft from the list.");
+            }
         }
     }
+
 
     private static void showEmail(Mail mail) {
         //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
