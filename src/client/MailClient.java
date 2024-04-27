@@ -1,19 +1,21 @@
 package client;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.sql.Timestamp;
 import server.MailServer;
 import usable.Account;
-import usable.Mail;
-
 import static usable.ErrorCodes.*;
-
-import java.rmi.*;
-import java.sql.Timestamp;
+import usable.Mail;
 
 public class MailClient {
     static MailServer mailServerProxy;
 
     public static MailServer initiateConnection(String address, String name) {
         try {
-            MailServer serverProxy = (MailServer) Naming.lookup("rmi://" + address + "/" + name);
+             Registry registry = LocateRegistry.getRegistry(address, 1177);
+
+            MailServer serverProxy = (MailServer) registry.lookup(name);
+        
             mailServerProxy = serverProxy;
             return serverProxy;
         } catch (Exception e) {
