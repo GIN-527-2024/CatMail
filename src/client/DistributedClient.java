@@ -3,6 +3,7 @@ package client;
 //import java.rmi.RMISecurityManager;
 
 import server.MailServer;
+import usable.Mail;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -15,14 +16,13 @@ public class DistributedClient {
 //        System.setSecurityManager(new RMISecurityManager());
 
         try {
-            Registry registry = LocateRegistry.getRegistry("localhost", 1177);
-
-            MailServer remoteObject = (MailServer) registry.lookup("RemoteInterface");
+            MailServer mailServerProxy = MailClient.initiateConnection("localhost", "RemoteInterface");
+            UserInterface.displayMenu(mailServerProxy);
 
 //            System.out.println(remoteObject.validateAccount("anthony", "hamid"));
 
 
-        } catch (RemoteException | NotBoundException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
