@@ -2,20 +2,15 @@ package server;
 
 
 
-import usable.Account;
-
 import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import usable.Account;
 import static usable.ErrorCodes.*;
-
 import usable.Mail;
 
 public class MailServerImpl extends UnicastRemoteObject implements MailServer {
