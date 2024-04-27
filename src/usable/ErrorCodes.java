@@ -6,13 +6,13 @@ public enum ErrorCodes {
     INVALID_INPUT(1, "Invalid input provided"),
     INVALID_NAME(2, "The name should be at least 3 characters long"),
     INVALID_EMAIL(3, "The email is not in correct format:" +
-            "\nFormat: local-part@domain-part  (domain part includes the suffixes .com .edu"),
+            "\nFormat: local-part@domain-part  (domain part includes the suffixes .com .edu)"),
     INVALID_PASSWORD(4, "THE PASSWORD IS NOT STRONG ENOUGH, " +
             "AT LEAST 8 CHARACTERS," +
             "SHOULD CONTAIN UPPERCASE AND LOWERCASE LETTERS," +
             "SHOULD CONTAIN A DIGIT," +
             "SHOULD CONTAIN A SPECIAL CHARACTER [!@#$%^&*]"),
-    EMIAL_TAKEN(5, "THE EMAIL IS ALREADY TAKEN, TRY ANOTHER ONE"),
+    EMAIL_TAKEN(5, "THE EMAIL IS ALREADY TAKEN, TRY ANOTHER ONE"),
     UNEXPECTED_ERROR(6, "ERROR"),
     USER_DOES_NOT_EXIST(7, "THE USER DOES NOT EXIST");
 
@@ -30,7 +30,7 @@ public enum ErrorCodes {
     }
 
     public String getMessage() {
-        return message;
+        return TextColor.RED_BOLD.getCode() + message + TextColor.reset();
     }
 
     public static String displayMessage(int code) {

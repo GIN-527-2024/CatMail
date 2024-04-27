@@ -44,7 +44,7 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
         if(name.length() <= MIN_NAME_SIZE ) return INVALID_NAME.getCode();
 
         if(!Account.isValidEmail(email)) return INVALID_EMAIL.getCode();
-        if(userFound(email)) return EMIAL_TAKEN.getCode();
+        if(userFound(email)) return EMAIL_TAKEN.getCode();
 
         if(!isStrongPassword(password)) return INVALID_PASSWORD.getCode();
 

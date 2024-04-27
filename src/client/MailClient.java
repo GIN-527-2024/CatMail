@@ -24,6 +24,7 @@ public class MailClient {
             MailServer serverProxy = (MailServer) registry.lookup(name);
 
 
+
             mailServerProxy = serverProxy;
             return serverProxy;
         } catch (Exception e) {
@@ -64,32 +65,31 @@ public class MailClient {
     }
 
     public static boolean registerRemote(String name, String email, String password) {
+        boolean result = false;
         try {
             int err = mailServerProxy.registerEmail(name, email, password);
-            if (err == NO_ERROR.getCode()) {
-                return true;
-            } else if (err == INVALID_NAME.getCode()) {
-                System.out.println((INVALID_EMAIL.getMessage()));
-                return false;
-            } else if (err == INVALID_NAME.getCode()) {
-                System.out.println((INVALID_EMAIL.getMessage()));
-                return false;
-            } else if (err == INVALID_PASSWORD.getCode()) {
-                System.out.println(INVALID_PASSWORD.getMessage());
-                return false;
-            }
+
+
+             if(err == NO_ERROR.getCode()) result = true;
+             else{
+                 System.out.println(displayMessage(err));
+             }
 
         } catch (Exception e) {
             System.err.println("Remote Exception: " + e);
             return false;
         }
-        return true;
+        return result;
     }
 
     public static void sendEmailRemote(Mail mail) {
         try {
-            if (mailServerProxy.send(mail)) {
+            if (mailServerProxy.send(mail) == NO_ERROR.getCode()) {
                 System.out.println("Email sent successfully.");
+                return;
+            }
+            if (mailServerProxy.send(mail) == USER_DOES_NOT_EXIST.getCode()){
+                System.out.println("The mail is sent to an unknown user, try again...");
                 return;
             }
             System.out.println("Could not send email (invalid format)");

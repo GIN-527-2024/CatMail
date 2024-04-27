@@ -29,4 +29,8 @@ public enum TextColor {
     public static String reset(){
         return WHITE.getCode();
     }
+    public static void printColored(TextColor color, String text){
+        System.out.println(color.getCode() + text + reset());
+    }
+
 }

@@ -10,7 +10,8 @@ public class DistributedClient {
 //        System.setSecrityManager(new RMISecurityManager());
 
         try {
-          
+
+
             MailServer mailServerProxy = MailClient.initiateConnection("localhost", "RemoteInterface");
             UserInterface.displayMenu(mailServerProxy);
 

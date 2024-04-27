@@ -3,9 +3,13 @@ package client;
 import server.MailServer;
 import usable.Account;
 import usable.Mail;
+import usable.TextColor;
 
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+
+import static usable.TextColor.printColored;
 
 public class UserInterface {
     private boolean isLoggedIn = false;
@@ -13,10 +17,11 @@ public class UserInterface {
     static Scanner scanner = new Scanner(System.in);
     public static void displayMenu(MailServer serverProxy) {
         mailServerProxy = serverProxy;
-        boolean running = true;
+        pause();
         String input;
-        while (running) {
-            System.out.println("Choose an option:");
+        while (true) {
+            clearConsole();
+            printColored(TextColor.GREEN,"Choose an option:");
             System.out.println("1. Register");
             System.out.println("2. Login");
             System.out.println("3. Quit");
@@ -26,35 +31,41 @@ public class UserInterface {
             } else if (input.equals("2")) {
                 loginInterface();
             } else if (input.equals("3")) {
-                System.exit(0);
+                stop();
             }
+
+            pause();
         }
+
     }
 
     private static void registerInterface() {
         boolean registered = false;
 
-        System.out.println("Enter name: ");
+        clearConsole();
+        System.out.println("Enter your name: ");
         String regName = scanner.next();
 
-        System.out.println("Enter email: ");
+        System.out.println("Enter your email: ");
+
         String regEmail = scanner.next();
 
-        System.out.println("Enter password: ");
+        System.out.println("Enter your password: ");
+
         String regPassword = scanner.next();
 
         registered = MailClient.registerRemote(regName, regEmail, regPassword);
 
         if (!registered) {
-            System.out.println("Could not register.");
+            printColored(TextColor.RED_UNDERLINED, "Could not register");
         } else {
-            System.out.println("User " + regEmail + " registered successfully");
+            printColored(TextColor.GREEN,"User " + regEmail + " registered successfully");
         }
     }
 
     private static void loginInterface() {
         boolean success = false;
-
+        clearConsole();
         System.out.print("Enter email: ");
         String regEmail = scanner.next();
 
@@ -65,10 +76,11 @@ public class UserInterface {
         success = MailClient.loginRemote(regEmail, regPassword);
 
         if (!success) {
-            System.out.println("Could not login.");
+            printColored(TextColor.RED_UNDERLINED,"Incorrect account");
+
             return;
         } else {
-            System.out.println("User " + regEmail + " logged in successfully.");
+            printColored(TextColor.GREEN,"User " + regEmail + " logged in successfully.");
             loggedInInterface(user);
         }
     }
@@ -76,7 +88,8 @@ public class UserInterface {
     public static void loggedInInterface(Account user) {
         String input;
         while (true) {
-            System.out.println("Choose an option:");
+            clearConsole();
+            printColored(TextColor.GREEN, "Choose an option:");
             System.out.println("1. Create Email");
             System.out.println("2. View Inbox");
             System.out.println("3. View Outbox");
@@ -108,6 +121,8 @@ public class UserInterface {
     private static void sendEmailInterface(Account user) {
         String to, subject, text, input;
         Mail email = new Mail(user);
+
+        clearConsole();
         System.out.println("Creating email... --savedraft to save.");
         System.out.println("To: ");
         to = scanner.next();
@@ -155,6 +170,8 @@ public class UserInterface {
     }
 
     private static void inboxInterface(Account user) {
+        clearConsole();
+
         while(true) {
             int i = 0;
             String input;
@@ -185,6 +202,7 @@ public class UserInterface {
 
 
     private static void outboxInterface(Account user) {
+        clearConsole();
         while(true) {
             int i = 0;
             String input;
@@ -215,6 +233,7 @@ public class UserInterface {
 
 
     private static void draftsInterface(Account user) {
+        clearConsole();
         Mail[] drafts = MailClient.drafts;
         while(true) {
             int i = 0;
@@ -251,4 +270,33 @@ public class UserInterface {
         System.out.println("---------------\nEnd of email. enter any key to go back");
         scanner.next();
     }
+
+    public static void stop(){
+        printColored(TextColor.MAGENTA,"The application is off");
+        System.exit(0);
+    }
+
+
+
+    private static void clearConsole() {
+        try {
+
+            if (System.getProperty("os.name").contains("Windows"))
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            else
+                Runtime.getRuntime().exec("clear");
+        } catch (IOException | InterruptedException ignore) {
+            System.err.println(ignore.getMessage());
+
+        }
+    }
+
+    public static void pause()  {
+        Scanner input = new Scanner(System.in);
+        printColored(TextColor.GOLD, "Press any key to continue");
+        input.nextLine();
+    }
+
+
+
 }
