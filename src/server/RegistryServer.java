@@ -25,6 +25,7 @@ public class RegistryServer {
 
             System.out.println("The system is up");
             printPrivateIP();
+            printPublicIP();
         } catch (RemoteException e) {
             System.err.println(e.getMessage());
         }

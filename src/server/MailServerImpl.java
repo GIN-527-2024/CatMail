@@ -16,33 +16,22 @@ import usable.Mail;
 public class MailServerImpl extends UnicastRemoteObject implements MailServer {
 
 
+
     private final String USER_ACCOUNT_PATH = "users.ser";
-    private final String MESSAGE_PATH = "../../../data/server/messages.ser";
+    private final String MAIL_PATH = "mails.ser";
 
     public MailServerImpl() throws RemoteException{
         super();
 
         try{
-            //
+
         }catch(Exception e){
             System.err.println(e.getMessage());
         }
     }
-    @Override
-    public void setup() throws RemoteException {
 
-    }
-    public boolean login(Account user) throws RemoteException{
-        String email = user.getEmail();
-        String password = user.getPassword();
-        validateAccount(email, password);
 
-        return false;
-    }
 
-    private boolean validateEmail(String email) {
-        return !userFound(email) && Account.isValidEmail(email);
-    }
 
     @Override
     public int registerEmail(String name, String email, String password) throws RemoteException {
@@ -54,12 +43,18 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
 
         if(name.length() <= MIN_NAME_SIZE ) return INVALID_NAME.getCode();
 
-        if(!validateEmail(email)) return INVALID_EMAIL.getCode();
+        if(!Account.isValidEmail(email)) return INVALID_EMAIL.getCode();
+        if(userFound(email)) return EMIAL_TAKEN.getCode();
 
         if(!isStrongPassword(password)) return INVALID_PASSWORD.getCode();
 
         Account account = new Account(email, password);
-        saveEmail(account);
+        try {
+            saveInFile(USER_ACCOUNT_PATH,account);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return UNEXPECTED_ERROR.getCode();
+        }
 
         //INTENDED TO BE DISPLAYED AT THE SERVER PART
         System.out.println( account + " is successfully created");
@@ -70,7 +65,7 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
 
     //this function intends to verify the user in the login process
     @Override
-    public boolean validateAccount(String email, String password) throws RemoteException {
+    public boolean login(String email, String password) throws RemoteException {
         return search(USER_ACCOUNT_PATH, email, password);
     }
 
@@ -78,7 +73,7 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
     public Mail[] RecievedEmail(Account account, Timestamp newest) throws RemoteException {
         ArrayList<Mail> mails = new ArrayList<>();
 
-        File file = new File(MESSAGE_PATH);
+        File file = new File(MAIL_PATH);
         try {
             FileInputStream fis = null;
             fis = new FileInputStream(file);
@@ -93,7 +88,9 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
                 try {
                     Mail obj = (Mail) ois.readObject();
 
-                    if(obj.getTo().equals(account.getEmail()) && obj.getTimestamp().after(newest)) mails.add(obj);
+                    if(!obj.getTimestamp().after(newest)) break;
+
+                    if(obj.getTo().equals(account.getEmail()) ) mails.add(obj);
 
                 } catch (EOFException e) {
                     break;
@@ -107,51 +104,29 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
 
         return (Mail[]) mails.toArray();
     }
-    public boolean send(Mail mail) throws RemoteException{
-      String to =mail.getTo();
-      if(validateEmail(to)==false){
-          return false;
-      }
-      String from =mail.getFrom();
-      if(validateEmail(from)){
-        return false;
-      }
-       
-       File f = new File("/users/" + to + "/"+mail.getSubject()+".txt");
-       File f2= new File("/users/"+from+"/"+mail.getSubject()+".txt" ); 
-        // i think it would be better instead of subject if we add an id for each mail and store the mail by id
-
-      try{
-      FileOutputStream fos= new FileOutputStream(f);
-      ObjectOutputStream obj =new ObjectOutputStream(fos);
-      obj.writeObject(mail);
-        obj.close();
-        fos.close();
-        FileOutputStream fos2= new FileOutputStream(f2);
-        ObjectOutputStream obj2 =new ObjectOutputStream(fos2);
-        obj2.writeObject(mail);
-          obj2.close();
-          fos2.close();     
-        return true;
-      }catch(IOException e){
-          System.out.println(e);
-          return false;
-      }
-    
-
-    }
 
     @Override
-    public Mail[] getEmails(Account user) throws RemoteException {
-        return new Mail[0];
+    public int send(Mail mail) throws RemoteException{
+        if(!userFound(mail.getTo())) return USER_DOES_NOT_EXIST.getCode();
+
+        try {
+            saveInFile(MAIL_PATH, mail);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return UNEXPECTED_ERROR.getCode();
+        }
+
+        return NO_ERROR.getCode();
     }
+
+
 
 
 
     public Mail[] SentEmail(Account account, Timestamp newest) throws RemoteException {
         ArrayList<Mail> mails = new ArrayList<>();
 
-        File file = new File(MESSAGE_PATH);
+        File file = new File(MAIL_PATH);
         try {
             FileInputStream fis = null;
             fis = new FileInputStream(file);
@@ -166,7 +141,10 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
                 try {
                     Mail obj = (Mail) ois.readObject();
 
-                    if(obj.getFrom().equals(account.getEmail()) && obj.getTimestamp().after(newest)) mails.add(obj);
+                    if(!obj.getTimestamp().after(newest)) break;
+
+
+                    if(obj.getFrom().equals(account.getEmail())) mails.add(obj);
 
                 } catch (EOFException e) {
                     break;
@@ -217,23 +195,24 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
 
     //all emails should be stored in lower case
 
-    private void saveEmail(Account account){
+    private <T> void saveInFile(String path,T object) throws IOException {
 
 
 
-        try {
-        File file = new File(USER_ACCOUNT_PATH);
-        FileOutputStream fos = null;
-        //true is for append argument
-            fos = new FileOutputStream(file, true);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
+    File file = new File(path);
+    FileOutputStream fos = null;
+    //true is for append argument
+    fos = new FileOutputStream(file, true);
+    ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-         oos.writeObject(account);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
+     oos.writeObject(object);
+
 
     }
+
+
+
+
 
     private  boolean isStrongPassword(String password) {
         // Check length
@@ -255,26 +234,14 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
         return upperCaseMatcher.find() && lowerCaseMatcher.find() && digitMatcher.find() && specialCharMatcher.find();
     }
 
-    public boolean saveDraft(Mail draft) throws RemoteException{
-        File f = new File("/users/"+draft.getFrom()+"/drafts/"+draft.getSubject()+".txt");
-        try{
-            FileOutputStream fos= new FileOutputStream(f);
-            ObjectOutputStream obj =new ObjectOutputStream(fos);
-            obj.writeObject(draft);
-            obj.close();
-            fos.close();
-            return true;
-          }catch(IOException e){
-              System.out.println(e);
-              return false;
-          }
-    }
+
    
 
     private boolean search(String path,String userEmail){
 
         userEmail = userEmail.toLowerCase();
         File file = new File(path);
+        if(!file.exists()) return false;
         try {
             FileInputStream fis = null;
             fis = new FileInputStream(file);
@@ -308,6 +275,8 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
 
         userEmail = userEmail.toLowerCase();
         File file = new File(path);
+        if(!file.exists()) return false;
+
         try {
             FileInputStream fis = null;
             fis = new FileInputStream(file);

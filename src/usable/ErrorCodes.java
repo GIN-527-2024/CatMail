@@ -11,7 +11,10 @@ public enum ErrorCodes {
             "AT LEAST 8 CHARACTERS," +
             "SHOULD CONTAIN UPPERCASE AND LOWERCASE LETTERS," +
             "SHOULD CONTAIN A DIGIT," +
-            "SHOULD CONTAIN A SPECIAL CHARACTER [!@#$%^&*]");
+            "SHOULD CONTAIN A SPECIAL CHARACTER [!@#$%^&*]"),
+    EMIAL_TAKEN(5, "THE EMAIL IS ALREADY TAKEN, TRY ANOTHER ONE"),
+    UNEXPECTED_ERROR(6, "ERROR"),
+    USER_DOES_NOT_EXIST(7, "THE USER DOES NOT EXIST");
 
 
     private final int code;
@@ -28,5 +31,14 @@ public enum ErrorCodes {
 
     public String getMessage() {
         return message;
+    }
+
+    public static String displayMessage(int code) {
+        for (ErrorCodes errorCode : ErrorCodes.values()) {
+            if (errorCode.code == code) {
+                return TextColor.RED_BOLD.getCode() + errorCode.message + TextColor.reset();
+            }
+        }
+        return "Invalid error code.";
     }
 }

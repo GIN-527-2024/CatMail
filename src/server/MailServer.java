@@ -9,13 +9,14 @@ import usable.Mail;
 public interface MailServer extends Remote{
 
 
-    //MAY NOT BE USED
-    public void setup() throws RemoteException;
-    public int registerEmail(String name, String email, String password) throws RemoteException;
-    public boolean validateAccount(String email, String password) throws RemoteException;
 
-    public boolean send(Mail mail) throws RemoteException;
-    public Mail[] getEmails(Account user) throws RemoteException; // should we give as argument for this function the user account or we should create a token after user log in
+
+
+    public boolean login(String email, String password) throws RemoteException;
+    public int registerEmail(String name, String email, String password) throws RemoteException;
+
+    public int send(Mail mail) throws RemoteException;
+//    public Mail[] getEmails(Account user) throws RemoteException; // should we give as argument for this function the user account or we should create a token after user log in
     //draft gonna be saved on the client side
     //public boolean saveDraft(Mail draft) throws RemoteException;
     //setStatus(User,status)   
