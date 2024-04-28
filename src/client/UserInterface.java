@@ -1,14 +1,11 @@
 package client;
 
+import java.io.IOException;
+import java.util.Scanner;
 import server.MailServer;
 import usable.Account;
 import usable.Mail;
 import usable.TextColor;
-
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
-
 import static usable.TextColor.printColored;
 
 public class UserInterface {
@@ -117,56 +114,89 @@ public class UserInterface {
             }
         }
     }
-
+   
     private static void sendEmailInterface(Account user) {
         String to, subject, text, input;
         Mail email = new Mail(user);
+        boolean lp = true;
 
         clearConsole();
-        System.out.println("Creating email... --savedraft to save.");
-        System.out.println("To: ");
-        to = scanner.next();
+        while(lp){
+            System.out.println("Creating email... --savedraft to save.");
+            System.out.println("1-To: ");
+            System.out.println("2-Subject");
+            System.out.println("3-Text: ");
+            System.out.print  ("4-Done composing");
 
-        if (to.equals("--savedraft")) {
+        input= scanner.next();
+        if(input.equals("--savedraft")){
             FileHandler.saveToDrafts(email);
             MailClient.reloadDrafts(user.getEmail());
             return;
         }
-        email.setTo(to);
-
-        System.out.println("Subject: ");
-        subject = scanner.next();
-
-        if (subject.equals("--savedraft")) {
-            FileHandler.saveToDrafts(email);
-            MailClient.reloadDrafts(user.getEmail());
-            return;
+        switch(Integer.parseInt(input)){
+        case 1:
+            System.out.println("To: ");
+            to = scanner.next();
+            if (to.equals("--savedraft")) {
+                FileHandler.saveToDrafts(email);
+                MailClient.reloadDrafts(user.getEmail());
+                return;
+            }
+            email.setTo(to);
+            break;
+        case 2:
+            System.out.println("Subject: ");
+            subject = scanner.next();
+            if (subject.equals("--savedraft")) {
+                FileHandler.saveToDrafts(email);
+                MailClient.reloadDrafts(user.getEmail());
+                return;
+            }
+            email.setSubject(subject);
+            break;
+        case 3:
+            System.out.println("Text: ");
+            text = scanner.next();
+            if (text.equals("--savedraft")) {
+                FileHandler.saveToDrafts(email);
+                MailClient.reloadDrafts(user.getEmail());
+                return;
+            }
+            email.setText(text);
+            break;
+        case 4:
+            if( email.getTo() == null || email.getSubject() == null || email.getText() == null){
+                System.out.println("Please fill all fields or save draft");
+                break;
+            }
+            lp = false;
+            break;
+        default:
+            System.out.println("Invalid option. Please choose again.");
+            break;
         }
-        email.setSubject(subject);
 
-        System.out.println("Text: ");
-        text = scanner.next();
-
-        if (text.equals("--savedraft")) {
-            FileHandler.saveToDrafts(email);
-            MailClient.reloadDrafts(user.getEmail());
-            return;
+        
+    
         }
-        email.setText(text);
-
+    
         System.out.println("Done composing. --send or --savedraft");
         do {
-            System.out.println("--send or --savedraft");
+            System.out.println("--send or --savedraft or --discard");
             input = scanner.next();
         }
-        while (!input.equals("--savedraft") && !input.equals("--send"));
+        while (!input.equals("--savedraft") && !input.equals("--send") && !input.equals("--discard"));
         if(input.equals("--send"))
             MailClient.sendEmailRemote(email);
-        else {
+        else if(input.equals("--discard")){
+            email=null;
+            return;
+        }else {
             FileHandler.saveToDrafts(email);
             MailClient.reloadDrafts(user.getEmail());
         }
-            return;
+        
     }
 
     private static void inboxInterface(Account user) {
@@ -240,7 +270,7 @@ public class UserInterface {
             String input;
             System.out.println("drafts: ");
             for (Mail mail: drafts) {
-                System.out.println(++i + ": ");
+                System.out.print(++i + ": ");
                 System.out.println("Subject: " + mail.getSubject() + "\nTo: " + mail.getTo());
             }
             System.out.println("Select draft to edit, 0 to go back");
