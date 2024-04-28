@@ -69,6 +69,7 @@ public class Mail implements Serializable {
         return timestamp;
     }
 
+
     public void createMail(){
 
     }
