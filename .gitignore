@@ -1,13 +1,7 @@
 ### IntelliJ IDEA ###
 out/
-.idea/
 !**/src/main/**/out/
 !**/src/test/**/out/
-*.ser
-
-src/META-INF/
-src/client/testing.java
-
 
 ### Eclipse ###
 .apt_generated
@@ -34,3 +28,4 @@ bin/
 ### Mac OS ###
 .DS_Store
 /src/client/testpic.java
+

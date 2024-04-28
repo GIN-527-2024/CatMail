@@ -1,4 +1,5 @@
 package client;
+import java.nio.file.attribute.FileAttribute;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.Timestamp;
@@ -14,10 +15,8 @@ import usable.Mail;
 public class MailClient {
     static MailServer mailServerProxy;
 
-    static Mail[] inbox;
-    static Mail[] outbox;
-    static Mail[] drafts;
-    public static MailServer initiateConnection(String address,String port) throws Exception{
+
+    public static MailServer initiateConnection(String address, String name) {
         try {
             //if not a integer it will throw an exception and the catch below will catch it
             int PORT = Integer.parseInt(port);
@@ -42,6 +41,7 @@ public class MailClient {
                 return false;
             }
 
+
             // Check if the directory exists, if not, create it
             String directoryPath = "data/client/" + email;
             File directory = new File(directoryPath);
@@ -55,9 +55,6 @@ public class MailClient {
             } else {
                 System.out.println("Directory already exists: " + directoryPath);
             }
-            inbox = FileHandler.getInbox(email);
-            outbox = FileHandler.getOutbox(email);
-            drafts = FileHandler.getDrafts(email);
             return true; // Login successful
         } catch (Exception e) {
             System.err.println("Remote Exception: " + e);
@@ -86,6 +83,8 @@ public class MailClient {
     public static void sendEmailRemote(Mail mail) {
         try {
             if (mailServerProxy.send(mail) == NO_ERROR.getCode()) {
+                Mail[] toSave = {mail};
+                FileHandler.saveToOutbox(toSave);
                 System.out.println("Email sent successfully.");
                 return;
             }
@@ -118,7 +117,7 @@ public class MailClient {
 
     public static void refreshInbox(Account user) {
         try {
-            Mail[] inboxLocal = inbox;
+            Mail[] inboxLocal = FileHandler.getInbox(user.getEmail());
             Timestamp newest = new Timestamp(0);
             if(inboxLocal.length != 0) {
                 newest = inboxLocal[inboxLocal.length - 1].getTimestamp();
@@ -130,20 +129,9 @@ public class MailClient {
                 System.out.println("Inbox aleardy up to date");
                 return;
             }
-            // Create a new array to hold the combined contents
-            Mail[] combinedInbox = new Mail[inboxLocal.length + inboxRemote.length];
 
-            // Copy the contents of inboxLocal into the combinedInbox
-            System.arraycopy(inboxLocal, 0, combinedInbox, 0, inboxLocal.length);
-
-            // Append the contents of inboxRemote to the end of combinedInbox
-            System.arraycopy(inboxRemote, 0, combinedInbox, inboxLocal.length, inboxRemote.length);
-
-            // Replace the reference of inboxLocal with the combined array
-            inbox = combinedInbox;
-
-            // Call saveToInbox with the combined array
-            FileHandler.saveToInbox(combinedInbox);
+            // Call saveToInbox with the new emails
+            FileHandler.saveToInbox(inboxRemote);
 
         } catch (Exception e) {
             System.err.println("Remote Exception: " + e);
@@ -154,21 +142,20 @@ public class MailClient {
     public static void refreshOutbox(Account user) {
         try {
             Mail[] outboxLocal = FileHandler.getOutbox(user.getEmail());
-            Timestamp newest = outboxLocal[outboxLocal.length - 1].getTimestamp();
+            Timestamp newest = new Timestamp(0);
+            if(outboxLocal.length != 0) {
+                newest = outboxLocal[outboxLocal.length - 1].getTimestamp();
+            }
 
-            Mail[] outboxRemote = mailServerProxy.SentEmail(user, newest);
 
-            // Create a new array to hold the combined contents
-            Mail[] combinedOutbox = new Mail[outboxLocal.length + outboxRemote.length];
+            Mail[] outboxRemote = mailServerProxy.RecievedEmail(user, newest);
+            if(outboxRemote.length == 0) {
+                System.out.println("Outbox aleardy up to date");
+                return;
+            }
 
-            // Copy the contents of outboxLocal into the combinedOutbox
-            System.arraycopy(outboxLocal, 0, combinedOutbox, 0, outboxLocal.length);
-
-            // Append the contents of outboxRemote to the end of combinedOutbox
-            System.arraycopy(outboxRemote, 0, combinedOutbox, outboxLocal.length, outboxRemote.length);
-
-            // Replace the reference of outboxLocal with the combined array
-            FileHandler.saveToOutbox(combinedOutbox);
+            // Call saveToInbox with the new emails
+            FileHandler.saveToOutbox(outboxRemote);
 
         } catch (Exception e) {
             System.err.println("Remote Exception: " + e);
@@ -178,10 +165,4 @@ public class MailClient {
     public static void logOut() {
 
     }
-
-    public static void reloadDrafts(String email) {
-        drafts = FileHandler.getDrafts(email);
-    }
-
-
 }

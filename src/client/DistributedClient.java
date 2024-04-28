@@ -5,6 +5,12 @@ import usable.TextColor;
 
 import static usable.TextColor.printColored;
 
+import server.MailServer;
+import usable.Account;
+import usable.Mail;
+
+import java.sql.Timestamp;
+
 public class DistributedClient {
     public static void main(String[] args){
 
@@ -17,6 +23,7 @@ public class DistributedClient {
 
                 MailClient.initiateConnection(args[0], args[1]);
                 UserInterface.displayMenu(MailClient.mailServerProxy);
+
 
             } catch (Exception e) {
                 throw new RuntimeException(e);

@@ -67,8 +67,8 @@ public class Mail implements Serializable {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = new Timestamp(timestamp);
-    }
 
+  
     /* public void saveDraft() {
         String fileName = "/drafts/" + getFrom() + "/" + getSubject() + "-" + timestamp.getTime() + ".ser";
         try {
