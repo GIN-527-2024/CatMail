@@ -9,7 +9,6 @@ import usable.TextColor;
 import static usable.TextColor.printColored;
 
 public class UserInterface {
-    private boolean isLoggedIn = false;
     static MailServer mailServerProxy;
     static Scanner scanner = new Scanner(System.in);
     public static void displayMenu(MailServer serverProxy) {
@@ -63,10 +62,10 @@ public class UserInterface {
     private static void loginInterface() {
         boolean success = false;
         clearConsole();
-        System.out.print("Enter email: ");
+        System.out.println("Enter email: ");
         String regEmail = scanner.next();
 
-        System.out.print("Enter password: ");
+        System.out.println("Enter password: ");
         String regPassword = scanner.next();
 
         Account user = new Account(regEmail, regPassword);
@@ -116,11 +115,17 @@ public class UserInterface {
     }
    
     private static void sendEmailInterface(Account user) {
-        String to, subject, text, input;
+       
         Mail email = new Mail(user);
-        boolean lp = true;
+       
 
         clearConsole();
+        editEmail(user,email);
+       
+    }
+    private static void editEmail(Account user,Mail email){
+        String to, subject, text, input;
+        boolean lp = true;
         while(lp){
             System.out.println("Creating email... --savedraft to save.");
             System.out.println("1-To: ");
@@ -176,11 +181,12 @@ public class UserInterface {
             System.out.println("Invalid option. Please choose again.");
             break;
         }
-
-        
-    
         }
+        sendEmail(user, email);
     
+    }
+    private  static void sendEmail(Account user,Mail email){
+        String input;
         System.out.println("Done composing. --send or --savedraft");
         do {
             System.out.println("--send or --savedraft or --discard");
@@ -198,7 +204,6 @@ public class UserInterface {
         }
         
     }
-
     private static void inboxInterface(Account user) {
         clearConsole();
 
@@ -281,6 +286,7 @@ public class UserInterface {
             if(selection == 0) return;
             if(selection >= 1 && selection <= drafts.length) {
                 // todo: edit draft using drafts[selection - 1]
+                editEmail(user, drafts[i-1]);
             } else {
                 System.out.println("Invalid selection. Please choose a draft from the list.");
             }
