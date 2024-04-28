@@ -160,4 +160,30 @@ public class FileHandler {
         // Convert the list of mails to an array and return
         return drafts.toArray(new Mail[0]);
     }
+    public static void deleteFromDrafts(Mail mail, int index) {
+        String inboxPath = USER_ACCOUNT_PATH + "/" + mail.getTo() + "/inbox.ser";
+        File file = new File(inboxPath);
+        Mail[] draftsArr = FileHandler.getDrafts(mail.getFrom());
+
+        ArrayList<Mail> draftsList = new ArrayList<>(Arrays.asList(draftsArr));
+
+        // Check if index is valid
+        if (index >= 0 && index < draftsList.size()) {
+            // Remove the draft at the specified index
+            draftsList.remove(index);
+
+            // Write each object one by one to the drafts file
+            try {
+                FileOutputStream fileOut = new FileOutputStream(file, false);
+                AppendableObjectOutputStream objectOut = new AppendableObjectOutputStream(fileOut, false);
+                for (Mail draft : draftsList) {
+                    objectOut.writeObject(draft);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Invalid index. Draft not deleted.");
+        }
+    }
 }

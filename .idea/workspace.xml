@@ -5,15 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c0da2d9c-f14a-43ef-9cff-8a1b2a5b957f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CatMail.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CatMail.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/client/thierry@hotmail.com/drafts.ser" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/client/thierry@hotmail.com/inbox.ser" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/client/helloman@hotmail.com/inbox.ser" beforeDir="false" afterPath="$PROJECT_DIR$/data/client/helloman@hotmail.com/inbox.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/client/thierry@hotmail.com/inbox.ser" beforeDir="false" afterPath="$PROJECT_DIR$/data/client/thierry@hotmail.com/inbox.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/client/thierry@hotmail.com/outbox.ser" beforeDir="false" afterPath="$PROJECT_DIR$/data/client/thierry@hotmail.com/outbox.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mails.ser" beforeDir="false" afterPath="$PROJECT_DIR$/mails.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/client/FileHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/FileHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/client/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/UserInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/MailServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/MailServerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users.ser" beforeDir="false" afterPath="$PROJECT_DIR$/users.ser" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -150,7 +148,7 @@
       <workItem from="1714206664756" duration="636000" />
       <workItem from="1714232271085" duration="11535000" />
       <workItem from="1714322525081" duration="656000" />
-      <workItem from="1714323201538" duration="827000" />
+      <workItem from="1714323201538" duration="1683000" />
     </task>
     <servers />
   </component>
