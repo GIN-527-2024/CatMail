@@ -83,7 +83,7 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
                 try {
                     Mail obj = (Mail) ois.readObject();
 
-                    if(!obj.getTimestamp().after(newest)) break;
+                    if(!obj.getTimestamp().after(newest)) continue;
 
                     if(obj.getTo().equals(account.getEmail()) ) mails.add(obj);
 
@@ -134,7 +134,7 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
                 try {
                     Mail obj = (Mail) ois.readObject();
 
-                    if(!obj.getTimestamp().after(newest)) break;
+                    if(!obj.getTimestamp().after(newest)) continue;
 
 
                     if(obj.getFrom().equals(account.getEmail())) mails.add(obj);
