@@ -139,11 +139,11 @@ public class UserInterface {
         boolean lp = true;
         while(lp){
             System.out.println("Creating email... --savedraft to save.");
-            System.out.println("1-To: ");
-            System.out.println("2-Subject");
-            System.out.println("3-Text: ");
+            System.out.println("1-To: " +email.getTo());
+            System.out.println("2-Subject: " +email.getSubject());
+            System.out.println("3-Text: " +email.getText());
             System.out.println  ("4-Done composing");
-            System.out.println("5-Go Back");
+            System.out.println("5-Discard");
 
         input= scanner.next();
         if(input.equals("--savedraft")){
@@ -325,8 +325,8 @@ public class UserInterface {
             int selection = Integer.parseInt(input);
             if(selection == 0) return;
             if(selection >= 1 && selection <= drafts.length) {
-                // todo: edit draft using drafts[selection - 1]
-                editEmail(user, drafts[i-1]);
+                FileHandler.deleteFromDrafts(drafts[selection-1], selection-1);
+                editEmail(user, drafts[selection-1]);
             } else {
                 System.out.println("Invalid selection. Please choose a draft from the list.");
             }

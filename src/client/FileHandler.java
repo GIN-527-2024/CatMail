@@ -161,8 +161,8 @@ public class FileHandler {
         return drafts.toArray(new Mail[0]);
     }
     public static void deleteFromDrafts(Mail mail, int index) {
-        String inboxPath = USER_ACCOUNT_PATH + "/" + mail.getTo() + "/inbox.ser";
-        File file = new File(inboxPath);
+        String draftsPath = USER_ACCOUNT_PATH + "/" + mail.getFrom() + "/drafts.ser";
+        File file = new File(draftsPath);
         Mail[] draftsArr = FileHandler.getDrafts(mail.getFrom());
 
         ArrayList<Mail> draftsList = new ArrayList<>(Arrays.asList(draftsArr));
