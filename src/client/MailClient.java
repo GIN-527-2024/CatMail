@@ -16,7 +16,7 @@ public class MailClient {
     static MailServer mailServerProxy;
 
 
-    public static MailServer initiateConnection(String address, String name) {
+    public static MailServer initiateConnection(String address, String port) throws NotBoundException, RemoteException {
         try {
             //if not a integer it will throw an exception and the catch below will catch it
             int PORT = Integer.parseInt(port);
