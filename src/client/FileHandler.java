@@ -16,10 +16,11 @@ public class FileHandler {
     public static void saveToOutbox(Mail[] mails) {
         String outboxPath = USER_ACCOUNT_PATH + "/" + mails[0].getFrom() + "/outbox.ser";
         File file = new File(outboxPath);
+        boolean append = file.exists();
 
-        try (FileOutputStream fileOut = new FileOutputStream(file, true);
-             AppendableObjectOutputStream objectOut = new AppendableObjectOutputStream(fileOut, true)) {
-
+        try {
+            FileOutputStream fileOut = new FileOutputStream(file, true);
+            AppendableObjectOutputStream objectOut = new AppendableObjectOutputStream(fileOut, append);
             for (Mail mail : mails) {
                 objectOut.writeObject(mail);
             }
@@ -31,12 +32,13 @@ public class FileHandler {
     }
 
     public static void saveToInbox(Mail[] mails) {
-        String inboxPath = USER_ACCOUNT_PATH + "/" + mails[0].getFrom() + "/inbox.ser";
+        String inboxPath = USER_ACCOUNT_PATH + "/" + mails[0].getTo() + "/inbox.ser";
         File file = new File(inboxPath);
+        boolean append = file.exists();
 
-        try (FileOutputStream fileOut = new FileOutputStream(file, true);
-             AppendableObjectOutputStream objectOut = new AppendableObjectOutputStream(fileOut, true)) {
-
+        try {
+            FileOutputStream fileOut = new FileOutputStream(file, true);
+            AppendableObjectOutputStream objectOut = new AppendableObjectOutputStream(fileOut, append);
             for (Mail mail : mails) {
                 objectOut.writeObject(mail);
             }
@@ -51,9 +53,11 @@ public class FileHandler {
     public static void saveToDrafts(Mail draft) {
         String draftsPath = USER_ACCOUNT_PATH + "/" + draft.getFrom() + "/drafts.ser";
         File file = new File(draftsPath);
+        boolean append = file.exists();
 
-        try (FileOutputStream fileOut = new FileOutputStream(file, true);
-             AppendableObjectOutputStream objectOut = new AppendableObjectOutputStream(fileOut, true)) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(file, true);
+            AppendableObjectOutputStream objectOut = new AppendableObjectOutputStream(fileOut, append);
 
             objectOut.writeObject(draft);
             System.out.println("Mail saved to drafts successfully.");
@@ -74,9 +78,9 @@ public class FileHandler {
             return new Mail[0];
         }
 
-        try (FileInputStream fileIn = new FileInputStream(file);
-             ObjectInputStream objectIn = new ObjectInputStream(new BufferedInputStream(fileIn))) {
-
+        try {
+            FileInputStream fileIn = new FileInputStream(file);
+            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
             // Read mails from the Inbox file until EOFException is thrown
             while (true) {
                 try {
@@ -105,9 +109,9 @@ public class FileHandler {
             return new Mail[0];
         }
 
-        try (FileInputStream fileIn = new FileInputStream(file);
-             ObjectInputStream objectIn = new ObjectInputStream(new BufferedInputStream(fileIn))) {
-
+        try {
+            FileInputStream fileIn = new FileInputStream(file);
+            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
             // Read mails from the outbox file until EOFException is thrown
             while (true) {
                 try {
@@ -136,9 +140,9 @@ public class FileHandler {
             return new Mail[0];
         }
 
-        try (FileInputStream fileIn = new FileInputStream(file);
-             ObjectInputStream objectIn = new ObjectInputStream(new BufferedInputStream(fileIn))) {
-
+        try {
+            FileInputStream fileIn = new FileInputStream(file);
+            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
             // Read mails from the Inbox file until EOFException is thrown
             while (true) {
                 try {

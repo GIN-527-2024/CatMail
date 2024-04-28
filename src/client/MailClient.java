@@ -34,10 +34,10 @@ public class MailClient {
     public static boolean loginRemote(String email, String password) {
         try {
             // Assuming login is successful, you can create the directory if it doesn't exist
-//        if (!mailServerProxy.login(email, password)) {
-//            System.out.println("invalid username or password");
-//            return false;
-//        }
+        if (!mailServerProxy.login(email, password)) {
+            System.out.println("invalid username or password");
+            return false;
+        }
 
             // Check if the directory exists, if not, create it
             String directoryPath = "data/client/" + email;
@@ -80,6 +80,8 @@ public class MailClient {
     public static void sendEmailRemote(Mail mail) {
         try {
             if (mailServerProxy.send(mail) == NO_ERROR.getCode()) {
+                Mail[] toSave = {mail};
+                FileHandler.saveToOutbox(toSave);
                 System.out.println("Email sent successfully.");
                 return;
             }
@@ -150,7 +152,7 @@ public class MailClient {
             }
 
             // Call saveToInbox with the new emails
-            FileHandler.saveToInbox(outboxRemote);
+            FileHandler.saveToOutbox(outboxRemote);
 
         } catch (Exception e) {
             System.err.println("Remote Exception: " + e);

@@ -1,5 +1,6 @@
 package client;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 import server.MailServer;
@@ -131,7 +132,6 @@ public class UserInterface {
         input= scanner.next();
         if(input.equals("--savedraft")){
             FileHandler.saveToDrafts(email);
-            MailClient.reloadDrafts(user.getEmail());
             return;
         }
         switch(Integer.parseInt(input)){
@@ -140,7 +140,6 @@ public class UserInterface {
             to = scanner.next();
             if (to.equals("--savedraft")) {
                 FileHandler.saveToDrafts(email);
-                MailClient.reloadDrafts(user.getEmail());
                 return;
             }
             email.setTo(to);
@@ -150,7 +149,6 @@ public class UserInterface {
             subject = scanner.next();
             if (subject.equals("--savedraft")) {
                 FileHandler.saveToDrafts(email);
-                MailClient.reloadDrafts(user.getEmail());
                 return;
             }
             email.setSubject(subject);
@@ -160,7 +158,6 @@ public class UserInterface {
             text = scanner.next();
             if (text.equals("--savedraft")) {
                 FileHandler.saveToDrafts(email);
-                MailClient.reloadDrafts(user.getEmail());
                 return;
             }
             email.setText(text);
@@ -194,7 +191,6 @@ public class UserInterface {
             return;
         }else {
             FileHandler.saveToDrafts(email);
-            MailClient.reloadDrafts(user.getEmail());
         }
         
     }
@@ -207,7 +203,7 @@ public class UserInterface {
             String input;
             System.out.println("Inbox: ");
             MailClient.refreshInbox(user);
-            Mail[] inbox = MailClient.inbox;
+            Mail[] inbox = FileHandler.getInbox(user.getEmail());
             if(inbox.length == 0) {
                 System.out.println("Inbox empty");
                 return;
@@ -238,7 +234,7 @@ public class UserInterface {
             String input;
             System.out.println("outbox: ");
             MailClient.refreshOutbox(user);
-            Mail[] outbox = MailClient.outbox;
+            Mail[] outbox = FileHandler.getOutbox(user.getEmail());
             if(outbox.length == 0) {
                 System.out.println("Outbox empty");
                 return;
@@ -264,7 +260,7 @@ public class UserInterface {
 
     private static void draftsInterface(Account user) {
         clearConsole();
-        Mail[] drafts = MailClient.drafts;
+        Mail[] drafts = FileHandler.getDrafts(user.getEmail());
         while(true) {
             int i = 0;
             String input;
