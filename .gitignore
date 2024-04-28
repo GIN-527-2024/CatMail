@@ -27,8 +27,3 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-/src/client/testpic.java
-
-/.idea/
-/src/META-INF/
-/src/client/testing.java

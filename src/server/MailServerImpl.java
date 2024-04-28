@@ -97,7 +97,7 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
         }
 
 
-        return mails.isEmpty() ? new Mail[0] : (Mail[]) mails.toArray();
+        return mails.isEmpty() ? new Mail[0] : mails.toArray(new Mail[0]);
     }
 
     @Override
@@ -149,7 +149,7 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
         }
 
         //if the mail array is empty a runtime error will be raised: ClassCastException
-        return mails.isEmpty() ? new Mail[0] : (Mail[]) mails.toArray();
+        return mails.isEmpty() ? new Mail[0] : mails.toArray(new Mail[0]);
     }
 
     //this method will search in the users file to check if the user is found

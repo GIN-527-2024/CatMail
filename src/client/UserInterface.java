@@ -256,8 +256,7 @@ public class UserInterface {
             MailClient.refreshInbox(user);
             Mail[] inbox = FileHandler.getInbox(user.getEmail());
             if(inbox.length == 0) {
-                System.out.println("Inbox empty");
-                return;
+                System.out.println("Inbox empty, 0 to go back");
             }
             for (Mail mail: inbox) {
                 System.out.println(++i + ": ");
@@ -287,8 +286,7 @@ public class UserInterface {
             MailClient.refreshOutbox(user);
             Mail[] outbox = FileHandler.getOutbox(user.getEmail());
             if(outbox.length == 0) {
-                System.out.println("Outbox empty");
-                return;
+                System.out.println("Outbox empty. 0 to go back");
             }
             for (Mail mail: outbox) {
                 System.out.println(++i + ": ");
