@@ -10,7 +10,6 @@ import usable.TextColor;
 import static usable.TextColor.printColored;
 
 public class UserInterface {
-    private boolean isLoggedIn = false;
     static MailServer mailServerProxy;
     static Scanner scanner = new Scanner(System.in);
     public static void displayMenu(MailServer serverProxy) {
@@ -74,10 +73,10 @@ public class UserInterface {
 
 
         clearConsole();
-        System.out.print("Enter email: ");
+        System.out.println("Enter email: ");
         String regEmail = scanner.next();
 
-        System.out.print("Enter password: ");
+        System.out.println("Enter password: ");
         String regPassword = scanner.next();
 
         Account user = new Account(regEmail, regPassword);
@@ -127,17 +126,24 @@ public class UserInterface {
     }
    
     private static void sendEmailInterface(Account user) {
-        String to, subject, text, input;
+       
         Mail email = new Mail(user);
-        boolean lp = true;
+       
 
         clearConsole();
+        editEmail(user,email);
+       
+    }
+    private static void editEmail(Account user,Mail email){
+        String to, subject, text, input;
+        boolean lp = true;
         while(lp){
             System.out.println("Creating email... --savedraft to save.");
             System.out.println("1-To: ");
             System.out.println("2-Subject");
             System.out.println("3-Text: ");
-            System.out.print  ("4-Done composing");
+            System.out.println  ("4-Done composing");
+            System.out.println("5-Go Back");
 
         input= scanner.next();
         if(input.equals("--savedraft")){
@@ -146,6 +152,14 @@ public class UserInterface {
         }
         switch(Integer.parseInt(input)){
         case 1:
+            if(email.getTo()!=null){
+                System.out.println("To: "+email.getTo());
+                System.out.println("Do you want to edit the recipient? (y/n)");
+                input = scanner.next();
+                if(input.equals("n")){
+                    break;
+                }
+            }
             System.out.println("To: ");
             to = scanner.next();
             if (to.equals("--savedraft")) {
@@ -155,7 +169,15 @@ public class UserInterface {
             email.setTo(to);
             break;
         case 2:
-            System.out.println("Subject: ");
+            if(email.getSubject()!=null){
+                System.out.println("Subject: "+email.getSubject());
+                System.out.println("Do you want to edit the subject? (y/n)");
+                input = scanner.next();
+                if(input.equals("n")){
+                    break;
+                }
+            }
+            System.out.println("New Subject: ");
             subject = scanner.next();
             if (subject.equals("--savedraft")) {
                 FileHandler.saveToDrafts(email);
@@ -164,8 +186,23 @@ public class UserInterface {
             email.setSubject(subject);
             break;
         case 3:
-            System.out.println("Text: ");
-            text = scanner.next();
+             if(email.getText()!=null){
+                System.out.println("Email body: \n"+email.getText());
+                System.out.println("Do you want to edit the text? (y/n)");
+                input = scanner.next();
+                if(input.equals("n")){
+                    break;
+                }
+             }
+            System.out.println("Enter email body (type '0' to quit and submit).");
+            text="";
+            while (scanner.hasNextLine()) {
+                text += scanner.nextLine();
+                if (text.trim().endsWith("0")) { // Check for "0" at the end, ignoring whitespace
+                    break;
+                }
+            }
+            
             if (text.equals("--savedraft")) {
                 FileHandler.saveToDrafts(email);
                 return;
@@ -179,15 +216,20 @@ public class UserInterface {
             }
             lp = false;
             break;
+        case 5:
+        loggedInInterface(user);
+        return;
         default:
             System.out.println("Invalid option. Please choose again.");
             break;
         }
-
         
-    
         }
+        sendEmail(user, email);
     
+    }
+    private  static void sendEmail(Account user,Mail email){
+        String input;
         System.out.println("Done composing. --send or --savedraft");
         do {
             System.out.println("--send or --savedraft or --discard");
@@ -204,7 +246,6 @@ public class UserInterface {
         }
 
     }
-
     private static void inboxInterface(Account user) {
         clearConsole();
 
@@ -287,6 +328,7 @@ public class UserInterface {
             if(selection == 0) return;
             if(selection >= 1 && selection <= drafts.length) {
                 // todo: edit draft using drafts[selection - 1]
+                editEmail(user, drafts[i-1]);
             } else {
                 System.out.println("Invalid selection. Please choose a draft from the list.");
             }
