@@ -1,6 +1,9 @@
 package client;
 
-//import java.rmi.RMISecurityManager;
+
+import usable.TextColor;
+
+import static usable.TextColor.printColored;
 
 import server.MailServer;
 import usable.Account;
@@ -10,18 +13,21 @@ import java.sql.Timestamp;
 
 public class DistributedClient {
     public static void main(String[] args){
-//        System.setSecrityManager(new RMISecurityManager());
 
-        try {
+        if(args.length != 2)
+            printColored(TextColor.RED_BOLD, "Wrong number of arguments" +
+                    "\nTry again but with 2 arguments only....");
+        else{
+
+            try {
+
+                MailClient.initiateConnection(args[0], args[1]);
+                UserInterface.displayMenu(MailClient.mailServerProxy);
 
 
-            MailServer mailServerProxy = MailClient.initiateConnection("localhost", "RemoteInterface");
-//            Account me = new Account("thierry@hotmail.com", "123456Th!");
-//            MailClient.refreshInbox(me);
-            UserInterface.displayMenu(mailServerProxy);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

@@ -1,5 +1,7 @@
 package server;
 
+import usable.TextColor;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -12,27 +14,34 @@ import java.util.Enumeration;
 public class RegistryServer {
     public static void main(String[] args) {
 
-
-
+        final int PORT = 1177;
 
         try {
 
-            Registry registry = LocateRegistry.createRegistry(1177);
+            Registry registry = LocateRegistry.createRegistry(PORT);
 
             MailServerImpl remoteObject = new MailServerImpl() ;
             registry.rebind("RemoteInterface", remoteObject);
 
 
+            //to color all the following text in gold
+            System.out.print(TextColor.GOLD.getCode());
+
             System.out.println("The system is up");
             printPrivateIP();
+            //in some networks for example at "USEK" the values of private and public ips won't be the same
+            //while in others such as the at home, they will give the same results
             printPublicIP();
+
+            //reset the color to white
+            System.out.println(TextColor.reset());
         } catch (RemoteException e) {
             System.err.println(e.getMessage());
         }
 
     }
 
-    //prints only the private ip of the wifi adapter
+    //prints only the private ip of the Wi-Fi adapter
     private static void printPrivateIP(){
 
         try {
@@ -58,14 +67,13 @@ public class RegistryServer {
     
     private static void printPublicIP(){
         // Print the public IP address
-        InetAddress localHost = null;
         try {
-            localHost = InetAddress.getLocalHost();
-            System.out.println("IP Address: " + localHost.getHostAddress());
+            InetAddress localHost = InetAddress.getLocalHost();
+            System.out.println("Public  IP Address of WiFi interface: " + localHost.getHostAddress());
         } catch (UnknownHostException e) {
             System.err.println(e.getMessage());
         }
-        ;
+
     }
 }
 

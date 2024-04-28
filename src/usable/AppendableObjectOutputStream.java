@@ -7,8 +7,8 @@ import java.io.OutputStream;
 
 public class AppendableObjectOutputStream extends ObjectOutputStream {
 
-    private boolean append;
-    private boolean initialized;
+    private final boolean append;
+    private final boolean initialized;
     private DataOutputStream dout;
 
     protected AppendableObjectOutputStream(boolean append) throws IOException, SecurityException {

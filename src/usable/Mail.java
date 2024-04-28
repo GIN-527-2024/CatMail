@@ -16,21 +16,17 @@ public class Mail implements Serializable {
     private boolean seen;
 
     //https://docs.oracle.com/javase/8/docs/api/java/sql/Timestamp.html
-    private final Timestamp timestamp;
+    private  Timestamp timestamp;
 
     public Mail(String from, String to, String subject, String text){
         setFrom(from);
         setTo(to);
         setSubject(subject);
         setText(text);
-        this.timestamp = new Timestamp(System.currentTimeMillis());
     }
     public Mail(Account user) {
-        setFrom(user.getEmail());
-        setTo(null);
-        setSubject(null);
-        setText(null);
-        this.timestamp = new Timestamp(System.currentTimeMillis());
+        this(user.getEmail(), null, null, null);
+
     }
 
     public String getFrom() {
@@ -69,10 +65,10 @@ public class Mail implements Serializable {
         return timestamp;
     }
 
+    public void setTimestamp(long timestamp) {
+        this.timestamp = new Timestamp(timestamp);
 
-    public void createMail(){
-
-    }
+  
     /* public void saveDraft() {
         String fileName = "/drafts/" + getFrom() + "/" + getSubject() + "-" + timestamp.getTime() + ".ser";
         try {
@@ -94,5 +90,21 @@ public class Mail implements Serializable {
     }
 
     } */
+
+
+    @Override
+    public String toString() {
+        return "Mail{" +
+                "timestamp=" + TextColor.CYAN.getCode() + timestamp + TextColor.reset() +
+                ", from='" +TextColor.CYAN.getCode() + from + "'\n" +  TextColor.reset() +
+                ", to='" + TextColor.CYAN.getCode()  + to + "'\n" + TextColor.reset() +
+                ", subject='" + TextColor.CYAN.getCode() +subject + "'\n" + TextColor.reset() +
+                '}';
+    }
+
+    public String shortForm(){
+        return this.toString();
+    }
+
 
 }

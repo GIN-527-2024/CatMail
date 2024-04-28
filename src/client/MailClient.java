@@ -15,11 +15,15 @@ import usable.Mail;
 public class MailClient {
     static MailServer mailServerProxy;
 
+
     public static MailServer initiateConnection(String address, String name) {
         try {
-            Registry registry = LocateRegistry.getRegistry(address, 1177);
+            //if not a integer it will throw an exception and the catch below will catch it
+            int PORT = Integer.parseInt(port);
+            String remoteObject = "RemoteInterface";
+            Registry registry = LocateRegistry.getRegistry(address, PORT);
 
-            MailServer serverProxy = (MailServer) registry.lookup(name);
+            MailServer serverProxy = (MailServer) registry.lookup(remoteObject);
 
 
 
@@ -27,17 +31,16 @@ public class MailClient {
             return serverProxy;
         } catch (Exception e) {
             System.err.println("Remote Exception: " + e);
-            return null;
+            throw e;
         }
     }
 
     public static boolean loginRemote(String email, String password) {
         try {
-            // Assuming login is successful, you can create the directory if it doesn't exist
-        if (!mailServerProxy.login(email, password)) {
-            System.out.println("invalid username or password");
-            return false;
-        }
+            if (!mailServerProxy.login(email, password)) {
+                return false;
+            }
+
 
             // Check if the directory exists, if not, create it
             String directoryPath = "data/client/" + email;
@@ -59,10 +62,10 @@ public class MailClient {
         return false; // Login failed
     }
 
-    public static boolean registerRemote(String name, String email, String password) {
+    public static boolean registerRemote(String email, String password) {
         boolean result = false;
         try {
-            int err = mailServerProxy.registerEmail(name, email, password);
+            int err = mailServerProxy.registerEmail(email, password);
 
 
              if(err == NO_ERROR.getCode()) result = true;
@@ -72,7 +75,7 @@ public class MailClient {
 
         } catch (Exception e) {
             System.err.println("Remote Exception: " + e);
-            return false;
+
         }
         return result;
     }
