@@ -2,8 +2,8 @@ package usable;
 
 public enum ErrorCodes {
 
-    NO_ERROR(0,"EVERTHING IS FINE"),
-    INVALID_INPUT(1, "Invalid input provided"),
+    NO_ERROR(0,"EVERYTHING IS FINE"),
+    INVALID_INPUT(1, "INVALID INPUT FORMAT"),
     INVALID_NAME(2, "The name should be at least 3 characters long"),
     INVALID_EMAIL(3, "The email is not in correct format:" +
             "\nFormat: local-part@domain-part  (domain part includes the suffixes .com .edu)"),
@@ -36,7 +36,7 @@ public enum ErrorCodes {
     public static String displayMessage(int code) {
         for (ErrorCodes errorCode : ErrorCodes.values()) {
             if (errorCode.code == code) {
-                return TextColor.RED_BOLD.getCode() + errorCode.message + TextColor.reset();
+                return errorCode.getMessage();
             }
         }
         return "Invalid error code.";

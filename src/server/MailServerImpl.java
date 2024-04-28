@@ -25,25 +25,21 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
     public MailServerImpl() throws RemoteException{
         super();
 
-        try{
 
-        }catch(Exception e){
-            System.err.println(e.getMessage());
-        }
     }
 
 
 
 
     @Override
-    public int registerEmail(String name, String email, String password) throws RemoteException {
+    public int registerEmail(String email, String password) throws RemoteException {
 
 
 
-        final int MIN_NAME_SIZE = 3;
+        /*final int MIN_NAME_SIZE = 3;
 
 
-        if(name.length() <= MIN_NAME_SIZE ) return INVALID_NAME.getCode();
+        if(name.length() <= MIN_NAME_SIZE ) return INVALID_NAME.getCode();*/
 
         if(!Account.isValidEmail(email)) return INVALID_EMAIL.getCode();
         if(userFound(email)) return EMAIL_TAKEN.getCode();
@@ -54,7 +50,7 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
         try {
             saveInFile(USER_ACCOUNT_PATH,account);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); //alternative for System.out.println(e.getMessage())
             return UNEXPECTED_ERROR.getCode();
         }
 
@@ -76,13 +72,10 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
         ArrayList<Mail> mails = new ArrayList<>();
 
         File file = new File(MAIL_PATH);
+        if (!file.exists()) return new Mail[0]; //return an empty mail array
         try {
-            FileInputStream fis = null;
-            fis = new FileInputStream(file);
+            FileInputStream  fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
-
-
-            boolean exists;
 
 
             while(true){
@@ -104,7 +97,7 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
         }
 
 
-        return (Mail[]) mails.toArray();
+        return mails.isEmpty() ? new Mail[0] : (Mail[]) mails.toArray();
     }
 
     @Override
@@ -129,14 +122,12 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
         ArrayList<Mail> mails = new ArrayList<>();
 
         File file = new File(MAIL_PATH);
+        if (!file.exists()) return new Mail[0]; //return an empty mail array
+
+
         try {
-            FileInputStream fis = null;
-            fis = new FileInputStream(file);
+            FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
-
-
-            boolean exists;
-
 
             while(true){
 
@@ -154,11 +145,11 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
             }
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
 
-
-        return (Mail[]) mails.toArray();
+        //if the mail array is empty a runtime error will be raised: ClassCastException
+        return mails.isEmpty() ? new Mail[0] : (Mail[]) mails.toArray();
     }
 
     //this method will search in the users file to check if the user is found
@@ -199,16 +190,14 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
 
     private <T> void saveInFile(String path,T object) throws IOException {
 
+        if(object instanceof Mail) ((Mail) object).setTimestamp(System.currentTimeMillis());
 
+        File file = new File(path);
+        boolean append = file.exists();
+        FileOutputStream fos = new FileOutputStream(file, append);
+        AppendableObjectOutputStream oos = new AppendableObjectOutputStream(fos, append);
 
-    File file = new File(path);
-    boolean append = file.exists();
-    FileOutputStream fos = null;
-    //true is for append argument
-    fos = new FileOutputStream(file, append);
-    AppendableObjectOutputStream oos = new AppendableObjectOutputStream(fos, append);
-
-     oos.writeObject(object);
+         oos.writeObject(object);
 
 
     }
@@ -246,8 +235,7 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
         File file = new File(path);
         if(!file.exists()) return false;
         try {
-            FileInputStream fis = null;
-            fis = new FileInputStream(file);
+            FileInputStream fis  = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
 
 
@@ -281,8 +269,7 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
         if(!file.exists()) return false;
 
         try {
-            FileInputStream fis = null;
-            fis = new FileInputStream(file);
+            FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
 
 

@@ -13,7 +13,7 @@ public interface MailServer extends Remote{
 
 
     public boolean login(String email, String password) throws RemoteException;
-    public int registerEmail(String name, String email, String password) throws RemoteException;
+    public int registerEmail(String email, String password) throws RemoteException;
 
     public int send(Mail mail) throws RemoteException;
 //    public Mail[] getEmails(Account user) throws RemoteException; // should we give as argument for this function the user account or we should create a token after user log in

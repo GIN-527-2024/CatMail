@@ -17,8 +17,15 @@ public class UserInterface {
     static Scanner scanner = new Scanner(System.in);
     public static void displayMenu(MailServer serverProxy) {
         mailServerProxy = serverProxy;
+
+        clearConsole();
+        mailboxAscii(); //print a mailbox ascii art
         pause();
+
         String input;
+
+
+
         while (true) {
             clearConsole();
             printColored(TextColor.GREEN,"Choose an option:");
@@ -31,7 +38,9 @@ public class UserInterface {
             } else if (input.equals("2")) {
                 loginInterface();
             } else if (input.equals("3")) {
+                clearConsole();
                 stop();
+
             }
 
             pause();
@@ -43,8 +52,7 @@ public class UserInterface {
         boolean registered = false;
 
         clearConsole();
-        System.out.println("Enter your name: ");
-        String regName = scanner.next();
+
 
         System.out.println("Enter your email: ");
 
@@ -54,7 +62,7 @@ public class UserInterface {
 
         String regPassword = scanner.next();
 
-        registered = MailClient.registerRemote(regName, regEmail, regPassword);
+        registered = MailClient.registerRemote(regEmail, regPassword);
 
         if (!registered) {
             printColored(TextColor.RED_UNDERLINED, "Could not register");
@@ -65,6 +73,8 @@ public class UserInterface {
 
     private static void loginInterface() {
         boolean success = false;
+
+
         clearConsole();
         System.out.print("Enter email: ");
         String regEmail = scanner.next();
@@ -166,7 +176,6 @@ public class UserInterface {
             FileHandler.saveToDrafts(email);
             MailClient.reloadDrafts(user.getEmail());
         }
-            return;
     }
 
     private static void inboxInterface(Account user) {
@@ -272,7 +281,8 @@ public class UserInterface {
     }
 
     public static void stop(){
-        printColored(TextColor.MAGENTA,"The application is off");
+        mailboxPicture();
+
         System.exit(0);
     }
 
@@ -296,6 +306,37 @@ public class UserInterface {
         printColored(TextColor.GOLD, "Press any key to continue");
         input.nextLine();
     }
+
+//    https://www.asciiart.eu/miscellaneous/mailbox
+    public static void mailboxAscii(){
+
+        String ascii =
+                "                                                _ __ ___   __ _(_) | |__   _____  __\n" +
+                "                                                | '_ ` _ \\ / _` | | | '_ \\ / _ \\ \\/ /\n" +
+                "                                                | | | | | | (_| | | | |_) | (_) >  < \n" +
+                "                                                |_| |_| |_|\\__,_|_|_|_.__/ \\___/_/\\_\\";
+
+        printColored(TextColor.BLUE, ascii);
+    }
+
+//    https://www.asciiart.eu/miscellaneous/mailbox
+    public static void mailboxPicture() {
+        String result =
+                "         \033[38;5;208m[E]\033[0m\n" +
+                        "     \033[38;5;130m.-|=====\033[38;5;208m-.\033[0m\n" +
+                        "     \033[38;5;130m| \033[38;5;33m| MAIL \033[38;5;130m|\033[0m" + TextColor.MAGENTA.getCode() + "          Distributed system project: Mailbox with java rmi\n" + TextColor.reset() +
+                        "     \033[38;5;130m|________|___\033[0m" + TextColor.MAGENTA.getCode() + "       Copyright © [Year] by Anthony Abisaid, Thierry Khoury, Charbel Azzi\n" + TextColor.reset() +
+                        "          \033[38;5;130m||\033[0m\n" +
+                        "          \033[38;5;130m||\033[0m\n" +
+                        "          \033[38;5;130m||\033[0m   \033[38;5;196mwww\033[0m                \033[38;5;196m%%%\033[0m\n" +
+                        "   \033[38;5;196mvwv\033[0m    \033[38;5;130m||\033[0m   \033[38;5;28m)_(\033[38;5;214m,;;;\033[38;5;220m,\033[0m        \033[38;5;214m,;\033[38;5;220m,\\_/ \033[38;5;196mwww\033[0m\n" +
+                        "   \033[38;5;28m)_(\033[0m    \033[38;5;130m||\033[0m   \033[38;5;28m\\|/ \\_/\033[0m         \033[38;5;28m)_(\\|  \033[38;5;214m(_)\033[0m\n" +
+                        "   \033[38;5;28m\\|/\033[0m   \033[38;5;130m \033[38;5;28m|| /\\\\|/ \\|/\033[0m         \033[38;5;28m\\| \\\\\\|// \\|\033[0m \n" +
+                        "\033[38;5;28m___\\|//\033[38;5;130m   \033[38;5;28m||//_\\V/_\\|//_______\\\\\\|//V/\\\\\\|/__\033[0m";
+        System.out.println(result);
+    }
+
+
 
 
 
