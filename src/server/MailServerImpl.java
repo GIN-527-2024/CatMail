@@ -11,6 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import usable.Account;
 import static usable.ErrorCodes.*;
+
+import usable.AppendableObjectOutputStream;
 import usable.Mail;
 
 public class MailServerImpl extends UnicastRemoteObject implements MailServer {
@@ -200,10 +202,11 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
 
 
     File file = new File(path);
+    boolean append = file.exists();
     FileOutputStream fos = null;
     //true is for append argument
-    fos = new FileOutputStream(file, true);
-    ObjectOutputStream oos = new ObjectOutputStream(fos);
+    fos = new FileOutputStream(file, append);
+    AppendableObjectOutputStream oos = new AppendableObjectOutputStream(fos, append);
 
      oos.writeObject(object);
 
