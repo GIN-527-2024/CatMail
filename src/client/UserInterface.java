@@ -334,9 +334,9 @@ public class UserInterface {
 
     private static void draftsInterface(Account user) {
         clearConsole();
-        Mail[] drafts = FileHandler.getDrafts(user.getEmail());
         int input;
         while(true) {
+            Mail[] drafts = FileHandler.getDrafts(user.getEmail());
             int i = 0;
             System.out.println("drafts: ");
             for (Mail mail: drafts) {
