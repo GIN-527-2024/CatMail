@@ -203,6 +203,8 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
 
          oos.writeObject(object);
 
+         oos.flush();
+
 
     }
 
@@ -246,6 +248,7 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
             boolean exists;
 
 
+            // .available != 0 didn't work properly so we used this method
             while(true){
 
                 try {
@@ -253,7 +256,6 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
                     exists = obj.getEmail().equals(userEmail);
                     if(exists) return true;
 
-                    System.out.println(obj);
                 } catch (EOFException e) {
                     break;
                 }
@@ -288,7 +290,6 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
 
                     if(exists) return true;
 
-                    System.out.println(obj);
                 } catch (EOFException e) {
                     break;
                 }

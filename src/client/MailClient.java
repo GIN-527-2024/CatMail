@@ -129,6 +129,7 @@ public class MailClient {
             // Call saveToInbox with the new emails
             FileHandler.saveToInbox(inboxRemote);
 
+
         } catch (Exception e) {
             System.err.println("Remote Exception: " + e);
         }
@@ -138,6 +139,7 @@ public class MailClient {
     public static void refreshOutbox(Account user) {
         try {
             Mail[] outboxLocal = FileHandler.getOutbox(user.getEmail());
+
             Timestamp newest = new Timestamp(0);
             if(outboxLocal.length != 0) {
                 newest = outboxLocal[outboxLocal.length - 1].getTimestamp();
@@ -146,12 +148,13 @@ public class MailClient {
 
             Mail[] outboxRemote = mailServerProxy.RecievedEmail(user, newest);
             if(outboxRemote.length == 0) {
-                System.out.println("Outbox aleardy up to date");
+                System.out.println("Outbox already up to date");
                 return;
             }
 
             // Call saveToInbox with the new emails
             FileHandler.saveToOutbox(outboxRemote);
+
 
         } catch (Exception e) {
             System.err.println("Remote Exception: " + e);

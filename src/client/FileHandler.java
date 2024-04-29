@@ -8,20 +8,20 @@ import usable.AppendableObjectOutputStream;
 import usable.Mail;
 
 public class FileHandler {
-     static final String USER_ACCOUNT_PATH = "./Client_data";
+    static final String USER_ACCOUNT_PATH = "./Client_data";
     public static void createInitialFiles(){
         try {
             File clientdir=new File(USER_ACCOUNT_PATH);
-        if(clientdir.exists()){
-            return;
-        }
+            if(clientdir.exists()){
+                return;
+            }
 
-        boolean b=clientdir.mkdir();
-        System.out.println("Client_Data: " +b);
+            boolean b=clientdir.mkdir();
+            System.out.println("Client_Data: " +b);
         } catch(Exception e){
             System.out.println("Error creating initial files: " + e.getMessage());
         }
-        
+
     }
     // saveToOutbox and saveToInbox are given all the emails to rewrite the file.
     public static void saveToOutbox(Mail[] mails) {

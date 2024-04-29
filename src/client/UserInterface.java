@@ -97,6 +97,8 @@ public class UserInterface {
         String input;
         while (true) {
             clearConsole();
+            printColored(TextColor.CYAN, user.getEmail());
+
             printColored(TextColor.GREEN, "Choose an option:");
             System.out.println("1. Create Email");
             System.out.println("2. View Inbox");
@@ -190,8 +192,8 @@ public class UserInterface {
                     break;
                 }
             }
-            printColored(TextColor.YELLOW,"Subject: ");
             scanner.nextLine(); //to read any extra values from before
+            printColored(TextColor.YELLOW,"Subject: ");
             subject = scanner.nextLine();
 
             email.setSubject(subject);
@@ -260,6 +262,7 @@ public class UserInterface {
                 printColored(TextColor.GREEN, "The email has been sent successfully");
             }else if(input==2){
                 FileHandler.saveToDrafts(email);
+
                 printColored(TextColor.GREEN, "The email has been saved successfully");
             }else {
                 email=null;
@@ -308,7 +311,7 @@ public class UserInterface {
             int input;
             printColored(TextColor.GREEN, "outbox: ");
             MailClient.refreshOutbox(user);
-            Mail[] outbox = FileHandler.getOutbox(user.getEmail());
+            Mail[] outbox = FileHandler.getInbox(user.getEmail());
             if(outbox.length == 0) {
                 printColored(TextColor.YELLOW,"Outbox empty. 0 to go back");
             }
@@ -363,6 +366,7 @@ public class UserInterface {
     private static void showEmail(Mail mail) {
         //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         //String dateString = mail.getTimestamp().toLocalDateTime().format(formatter);
+        clearConsole();
         System.out.println(mail.fullForm());
        pause();
     }
@@ -391,6 +395,7 @@ public class UserInterface {
     public static void pause()  {
         Scanner input = new Scanner(System.in);
         printColored(TextColor.GOLD, "Press any key to continue");
+        if(!input.hasNextLine()) input.nextLine();
         input.nextLine();
     }
 
