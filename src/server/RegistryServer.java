@@ -29,9 +29,6 @@ public class RegistryServer {
 
             System.out.println("The system is up");
             printPrivateIP();
-            //in some networks for example at "USEK" the values of private and public ips won't be the same
-            //while in others such as the at home, they will give the same results
-            printPublicIP();
 
             //reset the color to white
             System.out.println(TextColor.reset());

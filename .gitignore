@@ -32,3 +32,7 @@ bin/
 /.idea/
 /.idea/*.xml
 /users.ser
+/src/client/Client_Data/charbel.azzy@hotmail.com/
+/src/server/Server_Data/
+/src/META-INF2/META-INF/
+/Server_Data/

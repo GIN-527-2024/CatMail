@@ -17,18 +17,19 @@ import usable.Mail;
 public class MailServerImpl extends UnicastRemoteObject implements MailServer {
 
 
-    private final String USER_ACCOUNT_PATH = "./src/server/Server_Data/users.ser";
-    private final String MAIL_PATH = "./src/server/Server_Data/mails.ser";
+    private final String SERVER_DIRECTORY = "./Server_Data";
+    private final String USER_ACCOUNT_PATH = SERVER_DIRECTORY + "/users.ser";
+    private final String MAIL_PATH = SERVER_DIRECTORY + "/mails.ser";
 
     public MailServerImpl() throws RemoteException{
         super();
         try {
-            File serverdir=new File("./src/server/Server_Data");
+            File serverdir = new File(SERVER_DIRECTORY);
             if(serverdir.exists()){
                 System.out.println("already exists");
             }
     
-            boolean b=serverdir.mkdir();
+            boolean b= serverdir.mkdir();
             System.out.println("Server_Data: " +b);
         } catch (Exception e) {
             System.out.println("Error creating initial files: " + e.getMessage());
