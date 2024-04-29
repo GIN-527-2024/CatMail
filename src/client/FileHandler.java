@@ -8,7 +8,7 @@ import usable.AppendableObjectOutputStream;
 import usable.Mail;
 
 public class FileHandler {
-    private static final String USER_ACCOUNT_PATH = "./src/client/Client_Data";
+    private static final String USER_ACCOUNT_PATH = "./Client_data";
     public static void createInitialFiles(){
         try {
             File clientdir=new File(USER_ACCOUNT_PATH);
