@@ -1,6 +1,5 @@
 package client;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 import server.MailServer;
@@ -18,6 +17,7 @@ public class UserInterface {
         clearConsole();
         mailboxAscii(); //print a mailbox ascii art
         pause();
+        FileHandler.createInitialFiles();
 
         String input;
 

@@ -1,15 +1,12 @@
 package client;
-import java.nio.file.attribute.FileAttribute;
+import java.io.File;
+import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.Timestamp;
 import server.MailServer;
 import usable.Account;
 import static usable.ErrorCodes.*;
-
-import java.io.File;
-import java.rmi.*;
-
 import usable.Mail;
 
 public class MailClient {
@@ -43,7 +40,7 @@ public class MailClient {
 
 
             // Check if the directory exists, if not, create it
-            String directoryPath = "data/client/" + email;
+            String directoryPath = "./src/client/Client_Data/" + email;
             File directory = new File(directoryPath);
             if (!directory.exists()) {
                 boolean created = directory.mkdirs();
