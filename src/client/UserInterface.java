@@ -145,7 +145,7 @@ public class UserInterface {
             System.out.println  ("4-Done composing");
             System.out.println("5-Discard");
 
-        input= scanner.next();
+        input= scanner.nextLine();
         if(input.equals("--savedraft")){
             FileHandler.saveToDrafts(email);
             return;
@@ -161,7 +161,7 @@ public class UserInterface {
                 }
             }
             System.out.println("To: ");
-            to = scanner.next();
+            to = scanner.nextLine();
             if (to.equals("--savedraft")) {
                 FileHandler.saveToDrafts(email);
                 return;
@@ -178,7 +178,7 @@ public class UserInterface {
                 }
             }
             System.out.println("New Subject: ");
-            subject = scanner.next();
+            subject = scanner.nextLine();
             if (subject.equals("--savedraft")) {
                 FileHandler.saveToDrafts(email);
                 return;
@@ -189,7 +189,7 @@ public class UserInterface {
              if(email.getText()!=null){
                 System.out.println("Email body: \n"+email.getText());
                 System.out.println("Do you want to edit the text? (y/n)");
-                input = scanner.next();
+                input = scanner.nextLine();
                 if(input.equals("n")){
                     break;
                 }
