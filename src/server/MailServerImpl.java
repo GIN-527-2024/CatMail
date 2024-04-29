@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import usable.Account;
-import static usable.ErrorCodes.*;
-
 import usable.AppendableObjectOutputStream;
+import static usable.ErrorCodes.*;
 import usable.Mail;
 
 public class MailServerImpl extends UnicastRemoteObject implements MailServer {
@@ -27,12 +26,12 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
             File serverdir=new File("./src/server/Server_Data");
             if(serverdir.exists()){
                 System.out.println("already exists");
-                serverdir.delete();
             }
     
             boolean b=serverdir.mkdir();
             System.out.println("Server_Data: " +b);
         } catch (Exception e) {
+            System.out.println("Error creating initial files: " + e.getMessage());
         }
 
     }

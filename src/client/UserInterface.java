@@ -121,6 +121,7 @@ public class UserInterface {
                     return;
                 default:
                     System.out.println("Invalid option. Please choose again.");
+                    break;
             }
         }
     }
