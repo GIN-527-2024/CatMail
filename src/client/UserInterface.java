@@ -149,7 +149,6 @@ public class UserInterface {
             printColored(TextColor.YELLOW,"4- Done composing");
             printColored(TextColor.YELLOW, "5- Discard");
             printColored(TextColor.YELLOW,"6- save draft");
-            printColored(TextColor.YELLOW,"7- send draft");
 
 
 
@@ -212,6 +211,12 @@ public class UserInterface {
         case 4:
             if( email.getTo() == null || email.getSubject() == null || email.getText() == null){
                 System.out.println("Please fill all fields or save draft");
+                try {
+               Thread.sleep(1000);     
+                } catch (Exception e) {
+
+                }
+                
                 break;
             }
             lp = false;
@@ -224,9 +229,6 @@ public class UserInterface {
                 FileHandler.saveToDrafts(email);
                 return;
 
-            case 7:
-
-
             default:
                 //just loop again
                 break;
@@ -237,16 +239,24 @@ public class UserInterface {
     
     }
     private  static void sendEmail(Account user,Mail email){
-        String input;
+        int input;
         System.out.println("Done composing. --send or --savedraft");
         do {
-            System.out.println("--send or --savedraft or --discard");
-            input = scanner.next();
+            System.out.println("1-Send");
+            System.out.println("2-Save draft");
+            System.out.println("3-Discard");
+            try {
+                input = scanner.nextInt();
+            } catch (Exception e) {
+                System.out.println("Invalid input");
+                input = 0;
+            }
+           
         }
-        while (!input.equals("--savedraft") && !input.equals("--send") && !input.equals("--discard"));
-        if(input.equals("--send"))
+        while (!(input==1) && !(input==2) && !(input==3));
+        if(input==1){
             MailClient.sendEmailRemote(email);
-        else if(input.equals("--discard")){
+        }else if(input==2){
             email=null;
             return;
         }else {
