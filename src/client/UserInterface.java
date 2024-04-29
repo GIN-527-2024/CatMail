@@ -136,21 +136,33 @@ public class UserInterface {
     }
     private static void editEmail(Account user,Mail email){
         String to, subject, text, input;
+        Scanner scannerQ = new Scanner(System.in);
+        scannerQ.useDelimiter("/q");
+        int option = 0;
         boolean lp = true;
         while(lp){
-            System.out.println("Creating email... --savedraft to save.");
-            System.out.println("1-To: " +email.getTo());
-            System.out.println("2-Subject: " +email.getSubject());
-            System.out.println("3-Text: " +email.getText());
-            System.out.println  ("4-Done composing");
-            System.out.println("5-Discard");
 
-        input= scanner.nextLine();
-        if(input.equals("--savedraft")){
-            FileHandler.saveToDrafts(email);
-            return;
+            printColored(TextColor.YELLOW, "1- To: " + TextColor.CYAN.getCode() +email.getTo());
+            printColored(TextColor.YELLOW, "2- Subject: " + TextColor.CYAN.getCode() +email.getSubject());
+            printColored(TextColor.YELLOW, "3- Text: "  + TextColor.CYAN.getCode()  +email.getText());
+            printColored(TextColor.YELLOW,"4- Done composing");
+            printColored(TextColor.YELLOW, "5- Discard");
+            printColored(TextColor.YELLOW,"6- save draft");
+            printColored(TextColor.YELLOW,"7- send draft");
+
+
+
+
+        try{
+            option= scanner.nextInt();
+        }catch(Exception e){
+            printColored(TextColor.RED_BOLD, "The input is invalid" +
+                    "\nPlease try again...");
+
+            option = 0; //any value so that the default case is catched
         }
-        switch(Integer.parseInt(input)){
+
+        switch(option){
         case 1:
             if(email.getTo()!=null){
                 System.out.println("To: "+email.getTo());
@@ -161,52 +173,39 @@ public class UserInterface {
                 }
             }
             System.out.println("To: ");
-            to = scanner.nextLine();
-            if (to.equals("--savedraft")) {
-                FileHandler.saveToDrafts(email);
-                return;
-            }
+            to = scanner.next();
+
             email.setTo(to);
             break;
         case 2:
             if(email.getSubject()!=null){
-                System.out.println("Subject: "+email.getSubject());
                 System.out.println("Do you want to edit the subject? (y/n)");
-                input = scanner.next();
+                input = scanner.next().toLowerCase().substring(0,1);
                 if(input.equals("n")){
                     break;
                 }
             }
             System.out.println("New Subject: ");
+            scanner.nextLine(); //to read any extra values from before
             subject = scanner.nextLine();
-            if (subject.equals("--savedraft")) {
-                FileHandler.saveToDrafts(email);
-                return;
-            }
+
             email.setSubject(subject);
             break;
         case 3:
              if(email.getText()!=null){
                 System.out.println("Email body: \n"+email.getText());
                 System.out.println("Do you want to edit the text? (y/n)");
-                input = scanner.nextLine();
+                input = scanner.next();
                 if(input.equals("n")){
                     break;
                 }
              }
-            System.out.println("Enter email body (type '0' to quit and submit).");
+            printColored(TextColor.GREEN,"Enter email body (enter to /q to exit): ");
             text="";
-            while (scanner.hasNextLine()) {
-                text += scanner.nextLine();
-                if (text.trim().endsWith("0")) { // Check for "0" at the end, ignoring whitespace
-                    break;
-                }
-            }
-            
-            if (text.equals("--savedraft")) {
-                FileHandler.saveToDrafts(email);
-                return;
-            }
+
+            text = scannerQ.next();
+
+
             email.setText(text);
             break;
         case 4:
@@ -216,12 +215,20 @@ public class UserInterface {
             }
             lp = false;
             break;
-        case 5:
-        loggedInInterface(user);
-        return;
-        default:
-            System.out.println("Invalid option. Please choose again.");
-            break;
+       case 5:
+            loggedInInterface(user);
+            return;
+
+            case 6:
+                FileHandler.saveToDrafts(email);
+                return;
+
+            case 7:
+
+
+            default:
+                //just loop again
+                break;
         }
         
         }

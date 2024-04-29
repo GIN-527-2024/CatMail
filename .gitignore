@@ -31,3 +31,4 @@ bin/
 /src/META-INF/
 /.idea/
 /.idea/*.xml
+/users.ser
