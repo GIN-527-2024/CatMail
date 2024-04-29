@@ -23,6 +23,7 @@ public class Mail implements Serializable {
         setTo(to);
         setSubject(subject);
         setText(text);
+        setTimestamp(System.currentTimeMillis());
     }
     public Mail(Account user) {
         this(user.getEmail(), "", "", "");
