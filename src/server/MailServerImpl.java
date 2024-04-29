@@ -25,12 +25,8 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
         super();
         try {
             File serverdir = new File(SERVER_DIRECTORY);
-            if(serverdir.exists()){
-                System.out.println("already exists");
-            }
-    
+
             boolean b= serverdir.mkdir();
-            System.out.println("Server_Data: " +b);
         } catch (Exception e) {
             System.out.println("Error creating initial files: " + e.getMessage());
         }

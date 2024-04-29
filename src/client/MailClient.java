@@ -40,7 +40,7 @@ public class MailClient {
 
 
             // Check if the directory exists, if not, create it
-            String directoryPath = "./src/client/Client_Data/" + email;
+            String directoryPath = FileHandler.USER_ACCOUNT_PATH +"/" + email;
             File directory = new File(directoryPath);
             if (!directory.exists()) {
                 boolean created = directory.mkdirs();
@@ -48,9 +48,7 @@ public class MailClient {
                     System.err.println("Failed to create directory: " + directoryPath);
                     return false;
                 }
-                System.out.println("Directory created: " + directoryPath);
-            } else {
-                System.out.println("Directory already exists: " + directoryPath);
+
             }
             return true; // Login successful
         } catch (Exception e) {
@@ -85,14 +83,15 @@ public class MailClient {
                 System.out.println("Email sent successfully.");
                 return;
             }
-            if (mailServerProxy.send(mail) == USER_DOES_NOT_EXIST.getCode()){
+        if (mailServerProxy.send(mail) == USER_DOES_NOT_EXIST.getCode()){
                 System.out.println("The mail is sent to an unknown user, try again...");
                 return;
             }
             System.out.println("Could not send email (invalid format)");
-        } catch (Exception e) {
-            System.err.println("Remote Exception: " + e);
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
+
     }
 
     // a way to end the connection when the client has finished.

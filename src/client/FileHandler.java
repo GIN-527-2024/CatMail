@@ -8,7 +8,7 @@ import usable.AppendableObjectOutputStream;
 import usable.Mail;
 
 public class FileHandler {
-    private static final String USER_ACCOUNT_PATH = "./Client_data";
+     static final String USER_ACCOUNT_PATH = "./Client_data";
     public static void createInitialFiles(){
         try {
             File clientdir=new File(USER_ACCOUNT_PATH);
@@ -30,7 +30,7 @@ public class FileHandler {
         boolean append = file.exists();
 
         try {
-            FileOutputStream fileOut = new FileOutputStream(file, true);
+            FileOutputStream fileOut = new FileOutputStream(file, append);
             AppendableObjectOutputStream objectOut = new AppendableObjectOutputStream(fileOut, append);
             for (Mail mail : mails) {
                 objectOut.writeObject(mail);
@@ -48,7 +48,7 @@ public class FileHandler {
         boolean append = file.exists();
 
         try {
-            FileOutputStream fileOut = new FileOutputStream(file, true);
+            FileOutputStream fileOut = new FileOutputStream(file, append);
             AppendableObjectOutputStream objectOut = new AppendableObjectOutputStream(fileOut, append);
             for (Mail mail : mails) {
                 objectOut.writeObject(mail);
@@ -67,7 +67,7 @@ public class FileHandler {
         boolean append = file.exists();
 
         try {
-            FileOutputStream fileOut = new FileOutputStream(file, true);
+            FileOutputStream fileOut = new FileOutputStream(file, append);
             AppendableObjectOutputStream objectOut = new AppendableObjectOutputStream(fileOut, append);
 
             objectOut.writeObject(draft);

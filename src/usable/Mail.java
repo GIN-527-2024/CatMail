@@ -7,11 +7,11 @@ import java.sql.Timestamp;
 //implements serializable in order to be used with the fileoutputstream
 public class Mail implements Serializable {
 
-    private String from;
-    private String to;
+    private String from = "";
+    private String to = "";
 
-    private String subject;
-    private String text;
+    private String subject = "";
+    private String text = "";
 
     private boolean seen;
 
@@ -25,7 +25,7 @@ public class Mail implements Serializable {
         setText(text);
     }
     public Mail(Account user) {
-        this(user.getEmail(), null, null, null);
+        this(user.getEmail(), "", "", "");
 
     }
 
@@ -93,19 +93,24 @@ public class Mail implements Serializable {
     } */
 
 
-    @Override
-    public String toString() {
-        return "Mail{" +
-                "timestamp=" + TextColor.CYAN.getCode() + timestamp + TextColor.reset() +
-                ", from='" +TextColor.CYAN.getCode() + from + "'\n" +  TextColor.reset() +
-                ", to='" + TextColor.CYAN.getCode()  + to + "'\n" + TextColor.reset() +
-                ", subject='" + TextColor.CYAN.getCode() +subject + "'\n" + TextColor.reset() +
-                '}';
-    }
 
     public String shortForm(){
-        return this.toString();
+        return
+                "timestamp=" + TextColor.CYAN.getCode() + timestamp + TextColor.reset() +
+                        ", from='" +TextColor.CYAN.getCode() + from + "' /" +  TextColor.reset() +
+                        "to='" + TextColor.CYAN.getCode()  + to + "'\n" + TextColor.reset() +
+                        "subject='" + TextColor.CYAN.getCode() +subject + "'\n" + TextColor.reset();
     }
+    public String fullForm(){
+        return
+                "timestamp=" + TextColor.CYAN.getCode() + timestamp + TextColor.reset() +
+                        ", from='" +TextColor.CYAN.getCode() + from + "' /" +  TextColor.reset() +
+                        "to='" + TextColor.CYAN.getCode()  + to + "'\n" + TextColor.reset() +
+                        "subject='" + TextColor.CYAN.getCode() +subject + "'\n" + TextColor.reset()+
+                        "Body: \t" + text;
+    }
+
+
 
 
 }

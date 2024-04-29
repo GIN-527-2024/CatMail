@@ -51,11 +51,11 @@ public class UserInterface {
         clearConsole();
 
 
-        System.out.println("Enter your email: ");
+        printColored(TextColor.GREEN,"Enter your email: ");
 
         String regEmail = scanner.next();
 
-        System.out.println("Enter your password: ");
+        printColored(TextColor.GREEN,"Enter your password: ");
 
         String regPassword = scanner.next();
 
@@ -73,10 +73,10 @@ public class UserInterface {
 
 
         clearConsole();
-        System.out.println("Enter email: ");
+        printColored(TextColor.GREEN,"Enter email: ");
         String regEmail = scanner.next();
 
-        System.out.println("Enter password: ");
+        printColored(TextColor.GREEN,"Enter password: ");
         String regPassword = scanner.next();
 
         Account user = new Account(regEmail, regPassword);
@@ -88,6 +88,7 @@ public class UserInterface {
             return;
         } else {
             printColored(TextColor.GREEN,"User " + regEmail + " logged in successfully.");
+            pause();
             loggedInInterface(user);
         }
     }
@@ -117,6 +118,7 @@ public class UserInterface {
                     draftsInterface(user);
                     break;
                 case "5":
+                    printColored(TextColor.GREEN, "YOU HAVE SUCCESSFULLY SIGNED OUT");
                     MailClient.logOut();
                     return;
                 default:
@@ -136,16 +138,20 @@ public class UserInterface {
        
     }
     private static void editEmail(Account user,Mail email){
-        String to, subject, text, input;
+        String to, subject, text = "", input;
         Scanner scannerQ = new Scanner(System.in);
         scannerQ.useDelimiter("/q");
         int option = 0;
         boolean lp = true;
         while(lp){
+            clearConsole();
 
             printColored(TextColor.YELLOW, "1- To: " + TextColor.CYAN.getCode() +email.getTo());
             printColored(TextColor.YELLOW, "2- Subject: " + TextColor.CYAN.getCode() +email.getSubject());
-            printColored(TextColor.YELLOW, "3- Text: "  + TextColor.CYAN.getCode()  +email.getText());
+            printColored(TextColor.YELLOW, "3- Text: "  + TextColor.CYAN.getCode()
+                    + (email.getText()
+                    .split("\n")[0] == null ? "" : email.getText()
+                    .split("\n")[0]  + "..."));
             printColored(TextColor.YELLOW,"4- Done composing");
             printColored(TextColor.YELLOW, "5- Discard");
             printColored(TextColor.YELLOW,"6- save draft");
@@ -164,44 +170,41 @@ public class UserInterface {
 
         switch(option){
         case 1:
-            if(email.getTo()!=null){
-                System.out.println("To: "+email.getTo());
-                System.out.println("Do you want to edit the recipient? (y/n)");
-                input = scanner.next();
+            if(!email.getTo().isBlank()){
+                printColored(TextColor.GREEN,"Do you want to edit the recipient? (y/n)");
+                input = scanner.next().toLowerCase().substring(0,1);
                 if(input.equals("n")){
                     break;
                 }
             }
-            System.out.println("To: ");
+            printColored(TextColor.YELLOW,"To: ");
             to = scanner.next();
 
             email.setTo(to);
             break;
         case 2:
-            if(email.getSubject()!=null){
+            if(!email.getSubject().isBlank()){
                 System.out.println("Do you want to edit the subject? (y/n)");
                 input = scanner.next().toLowerCase().substring(0,1);
                 if(input.equals("n")){
                     break;
                 }
             }
-            System.out.println("New Subject: ");
+            printColored(TextColor.YELLOW,"Subject: ");
             scanner.nextLine(); //to read any extra values from before
             subject = scanner.nextLine();
 
             email.setSubject(subject);
             break;
         case 3:
-             if(email.getText()!=null){
-                System.out.println("Email body: \n"+email.getText());
-                System.out.println("Do you want to edit the text? (y/n)");
+             if(!email.getText().isBlank()){
+                printColored(TextColor.GREEN,"Do you want to edit the text? (y/n)");
                 input = scanner.next();
                 if(input.equals("n")){
                     break;
                 }
              }
-            printColored(TextColor.GREEN,"Enter email body (enter to /q to exit): ");
-            text="";
+            printColored(TextColor.GREEN,"Enter email body (enter /q to exit): ");
 
             text = scannerQ.next();
 
@@ -209,13 +212,10 @@ public class UserInterface {
             email.setText(text);
             break;
         case 4:
-            if( email.getTo() == null || email.getSubject() == null || email.getText() == null){
-                System.out.println("Please fill all fields or save draft");
-                try {
-               Thread.sleep(1000);     
-                } catch (Exception e) {
+            if( email.getTo().isBlank() || email.getSubject().isBlank()|| email.getText().isBlank()){
+                printColored(TextColor.RED,"Please fill all fields or save draft");
 
-                }
+                pause();
                 
                 break;
             }
@@ -240,7 +240,8 @@ public class UserInterface {
     }
     private  static void sendEmail(Account user,Mail email){
         int input;
-        System.out.println("Done composing. --send or --savedraft");
+        clearConsole();
+        printColored(TextColor.GREEN,"Done composing, Choose an option");
         do {
             System.out.println("1-Send");
             System.out.println("2-Save draft");
@@ -248,20 +249,23 @@ public class UserInterface {
             try {
                 input = scanner.nextInt();
             } catch (Exception e) {
-                System.out.println("Invalid input");
+                printColored(TextColor.RED,"Invalid input");
                 input = 0;
             }
            
-        }
-        while (!(input==1) && !(input==2) && !(input==3));
-        if(input==1){
-            MailClient.sendEmailRemote(email);
-        }else if(input==2){
-            email=null;
-            return;
-        }else {
-            FileHandler.saveToDrafts(email);
-        }
+        }  while ( !(input == 1 || input == 2 || input == 3));
+
+            if(input==1){
+                MailClient.sendEmailRemote(email);
+                printColored(TextColor.GREEN, "The email has been sent successfully");
+            }else if(input==2){
+                FileHandler.saveToDrafts(email);
+                printColored(TextColor.GREEN, "The email has been saved successfully");
+            }else {
+                email=null;
+                printColored(TextColor.GREEN, "The email has been discarded");
+            }
+        pause();
 
     }
     private static void inboxInterface(Account user) {
@@ -269,27 +273,29 @@ public class UserInterface {
 
         while(true) {
             int i = 0;
-            String input;
-            System.out.println("Inbox: ");
+            int input;
+            printColored(TextColor.GREEN, "Inbox: ");
             MailClient.refreshInbox(user);
             Mail[] inbox = FileHandler.getInbox(user.getEmail());
             if(inbox.length == 0) {
-                System.out.println("Inbox empty, 0 to go back");
+                printColored(TextColor.YELLOW,"Inbox empty, 0 to go back");
             }
             for (Mail mail: inbox) {
-                System.out.println(++i + ": ");
-                System.out.println("Subject: " + mail.getSubject() + "\nFrom: " + mail.getFrom());
+                System.out.print(++i + ": ");
+                System.out.println(mail.shortForm());
             }
-            System.out.println("Select mail to display, 0 to go back");
-            do {
-                input = scanner.next();
-            } while(!input.matches("[0-9]+")); // Check if input is a number
-            int selection = Integer.parseInt(input);
-            if(selection == 0) return;
-            if(selection >= 1 && selection <= inbox.length) {
-                showEmail(inbox[selection - 1]); // Adjust index since the displayed index starts from 1
+                System.out.println("Select mail to display, 0 to go back");
+            try{
+                input = scanner.nextInt();
+            } catch (Exception e){
+                //the input is not a number
+                input = -1; // so that the user tries again
+            }
+            if(input == 0) return;
+            if(input >= 1 && input <= inbox.length) {
+                showEmail(inbox[input - 1]); // Adjust index since the displayed index starts from 1
             } else {
-                System.out.println("Invalid selection. Please choose an email from the list.");
+                printColored(TextColor.RED,"Invalid selection. Please choose an email from the list.");
             }
         }
     }
@@ -299,27 +305,28 @@ public class UserInterface {
         clearConsole();
         while(true) {
             int i = 0;
-            String input;
-            System.out.println("outbox: ");
+            int input;
+            printColored(TextColor.GREEN, "outbox: ");
             MailClient.refreshOutbox(user);
             Mail[] outbox = FileHandler.getOutbox(user.getEmail());
             if(outbox.length == 0) {
-                System.out.println("Outbox empty. 0 to go back");
+                printColored(TextColor.YELLOW,"Outbox empty. 0 to go back");
             }
             for (Mail mail: outbox) {
-                System.out.println(++i + ": ");
-                System.out.println("Subject: " + mail.getSubject() + "\nTo: " + mail.getTo());
+                System.out.print(++i + ": ");
+                System.out.println(mail.shortForm());
             }
-            System.out.println("Select mail to display, 0 to go back");
-            do {
-                input = scanner.next();
-            } while(!input.matches("[0-9]+")); // Check if input is a number
-            int selection = Integer.parseInt(input);
-            if(selection == 0) return;
-            if(selection >= 1 && selection <= outbox.length) {
-                showEmail(outbox[selection - 1]);
+            printColored(TextColor.YELLOW,"Select mail to display, 0 to go back");
+            try{
+                input = scanner.nextInt();
+            } catch (Exception e) {// Check if input is a number
+                input = -1;
+            }
+            if(input == 0) return;
+            if(input >= 1 && input <= outbox.length) {
+                showEmail(outbox[input - 1]);
             } else {
-                System.out.println("Invalid selection. Please choose an email from the list.");
+                printColored(TextColor.RED,"Invalid selection. Please choose an email from the list.");
             }
         }
     }
@@ -328,25 +335,26 @@ public class UserInterface {
     private static void draftsInterface(Account user) {
         clearConsole();
         Mail[] drafts = FileHandler.getDrafts(user.getEmail());
+        int input;
         while(true) {
             int i = 0;
-            String input;
             System.out.println("drafts: ");
             for (Mail mail: drafts) {
                 System.out.print(++i + ": ");
-                System.out.println("Subject: " + mail.getSubject() + "\nTo: " + mail.getTo());
+                System.out.println(mail.shortForm());
             }
-            System.out.println("Select draft to edit, 0 to go back");
-            do {
-                input = scanner.next();
-            } while(!input.matches("[0-9]+")); // Check if input is a number
-            int selection = Integer.parseInt(input);
-            if(selection == 0) return;
-            if(selection >= 1 && selection <= drafts.length) {
-                FileHandler.deleteFromDrafts(drafts[selection-1], selection-1);
-                editEmail(user, drafts[selection-1]);
+            printColored(TextColor.YELLOW,"Select draft to edit, 0 to go back");
+            try{
+                input = scanner.nextInt();
+            } catch (Exception e) {// Check if input is a number
+                input = -1;
+            }
+            if(input == 0) return;
+            if(input >= 1 && input <= drafts.length) {
+                FileHandler.deleteFromDrafts(drafts[input-1], input-1);
+                editEmail(user, drafts[input-1]);
             } else {
-                System.out.println("Invalid selection. Please choose a draft from the list.");
+                printColored(TextColor.RED,"Invalid selection. Please choose a draft from the list.");
             }
         }
     }
@@ -355,14 +363,8 @@ public class UserInterface {
     private static void showEmail(Mail mail) {
         //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         //String dateString = mail.getTimestamp().toLocalDateTime().format(formatter);
-        System.out.println("Mail: ");
-        System.out.println("From: " +mail.getFrom());
-        System.out.println("To: " +mail.getTo());
-        System.out.println("Subject: " +mail.getSubject());
-        //System.out.println("Time: " +dateString);
-        System.out.println("\n" +mail.getText());
-        System.out.println("---------------\nEnd of email. enter any key to go back");
-        scanner.next();
+        System.out.println(mail.fullForm());
+       pause();
     }
 
     public static void stop(){
