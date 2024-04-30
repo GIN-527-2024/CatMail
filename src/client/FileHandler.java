@@ -9,6 +9,10 @@ import usable.Mail;
 
 public class FileHandler {
     static final String USER_ACCOUNT_PATH = "./Client_data";
+    static final String OUTBOX_PATH = "/outbox.ser";
+    static final String INBOX_PATH = "/inbox.ser";
+    static final String DRAFT_PATH = "/drafts.ser";
+
     public static void createInitialFiles(){
         try {
             File clientdir=new File(USER_ACCOUNT_PATH);
@@ -24,8 +28,8 @@ public class FileHandler {
 
     }
     // saveToOutbox and saveToInbox are given all the emails to rewrite the file.
-    public static void saveToOutbox(Mail[] mails) {
-        String outboxPath = USER_ACCOUNT_PATH + "/" + mails[0].getFrom() + "/outbox.ser";
+    public static void saveInFile(Mail[] mails, String slashedPath) {
+        String outboxPath = USER_ACCOUNT_PATH + "/" + mails[0].getFrom() + slashedPath;
         File file = new File(outboxPath);
         boolean append = file.exists();
 
@@ -35,53 +39,20 @@ public class FileHandler {
             for (Mail mail : mails) {
                 objectOut.writeObject(mail);
             }
-            System.out.println("Mails saved to outbox successfully.");
+
+            objectOut.flush();
+            System.out.println("Mails successfully saved in: " + outboxPath );
 
         } catch (IOException e) {
-            System.err.println("Error occurred while saving mails to outbox: " + e.getMessage());
-        }
-    }
-
-    public static void saveToInbox(Mail[] mails) {
-        String inboxPath = USER_ACCOUNT_PATH + "/" + mails[0].getTo() + "/inbox.ser";
-        File file = new File(inboxPath);
-        boolean append = file.exists();
-
-        try {
-            FileOutputStream fileOut = new FileOutputStream(file, append);
-            AppendableObjectOutputStream objectOut = new AppendableObjectOutputStream(fileOut, append);
-            for (Mail mail : mails) {
-                objectOut.writeObject(mail);
-            }
-            System.out.println("Mails saved to inbox successfully.");
-
-        } catch (IOException e) {
-            System.err.println("Error occurred while saving mail to inbox: " + e.getMessage());
-        }
-    }
-
-    // is given one draft to save
-    public static void saveToDrafts(Mail draft) {
-        String draftsPath = USER_ACCOUNT_PATH + "/" + draft.getFrom() + "/drafts.ser";
-        File file = new File(draftsPath);
-        boolean append = file.exists();
-
-        try {
-            FileOutputStream fileOut = new FileOutputStream(file, append);
-            AppendableObjectOutputStream objectOut = new AppendableObjectOutputStream(fileOut, append);
-
-            objectOut.writeObject(draft);
-            System.out.println("Mail saved to drafts successfully.");
-
-        } catch (IOException e) {
-            System.err.println("Error occurred while saving mail to drafts: " + e.getMessage());
+            System.err.println("Error occurred while saving mails: " + outboxPath);
+            e.printStackTrace();
         }
     }
 
 
-    public static Mail[] getInbox(String email) {
+    public static Mail[] getFromPath(String email, String slashedPath) {
         List<Mail> inbox = new ArrayList<>();
-        String inboxPath = USER_ACCOUNT_PATH + "/" + email + "/inbox.ser";
+        String inboxPath = USER_ACCOUNT_PATH + "/" + email + slashedPath;
         File file = new File(inboxPath);
 
         if (!file.exists()) {
@@ -110,71 +81,10 @@ public class FileHandler {
         return inbox.toArray(new Mail[0]);
     }
 
-    public static Mail[] getOutbox(String email) {
-        List<Mail> outbox = new ArrayList<>();
-        String outboxPath = USER_ACCOUNT_PATH + "/" + email + "/outbox.ser";
-        File file = new File(outboxPath);
-
-        if (!file.exists()) {
-            // Outbox file doesn't exist, return an empty array
-            return new Mail[0];
-        }
-
-        try {
-            FileInputStream fileIn = new FileInputStream(file);
-            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-            // Read mails from the outbox file until EOFException is thrown
-            while (true) {
-                try {
-                    Mail mail = (Mail) objectIn.readObject();
-                    outbox.add(mail);
-                } catch (EOFException e) {
-                    break; // End of file reached
-                }
-            }
-
-        } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Error occurred while reading outbox: " + e.getMessage());
-        }
-
-        // Convert the list of mails to an array and return
-        return outbox.toArray(new Mail[0]);
-    }
-
-    public static Mail[] getDrafts(String email) {
-        List<Mail> drafts = new ArrayList<>();
-        String draftsPath = USER_ACCOUNT_PATH + "/" + email + "/drafts.ser";
-        File file = new File(draftsPath);
-
-        if (!file.exists()) {
-            // Inbox file doesn't exist, return an empty array
-            return new Mail[0];
-        }
-
-        try {
-            FileInputStream fileIn = new FileInputStream(file);
-            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-            // Read mails from the Inbox file until EOFException is thrown
-            while (true) {
-                try {
-                    Mail mail = (Mail) objectIn.readObject();
-                    drafts.add(mail);
-                } catch (EOFException e) {
-                    break; // End of file reached
-                }
-            }
-
-        } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Error occurred while reading drafts: " + e.getMessage());
-        }
-
-        // Convert the list of mails to an array and return
-        return drafts.toArray(new Mail[0]);
-    }
     public static void deleteFromDrafts(Mail mail, int index) {
-        String draftsPath = USER_ACCOUNT_PATH + "/" + mail.getFrom() + "/drafts.ser";
+        String draftsPath = USER_ACCOUNT_PATH + "/" + mail.getFrom() + DRAFT_PATH;
         File file = new File(draftsPath);
-        Mail[] draftsArr = FileHandler.getDrafts(mail.getFrom());
+        Mail[] draftsArr = FileHandler.getFromPath(mail.getFrom(), DRAFT_PATH);
 
         ArrayList<Mail> draftsList = new ArrayList<>(Arrays.asList(draftsArr));
 
