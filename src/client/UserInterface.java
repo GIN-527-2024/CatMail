@@ -160,7 +160,6 @@ public class UserInterface {
                     .split("\n")[0] ));
             printColored(TextColor.YELLOW,"4- Done composing");
             printColored(TextColor.YELLOW, "5- Discard");
-            printColored(TextColor.YELLOW,"6- save draft");
 
 
 
@@ -247,11 +246,7 @@ public class UserInterface {
             loggedInInterface(user);
             return;
 
-            case 6:
-                Mail[] emailArray = new Mail[1];
-                emailArray[0] = email;
-                FileHandler.saveInFile(emailArray, FileHandler.DRAFT_PATH);
-                return;
+
 
             default:
                 //just loop again
