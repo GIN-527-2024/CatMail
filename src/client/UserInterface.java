@@ -361,7 +361,7 @@ public class UserInterface {
         int input;
         while(true) {
             int i = 0;
-            System.out.println("drafts: ");
+            printColored(TextColor.GREEN, "drafts: ");
             for (Mail mail: drafts) {
                 System.out.print(TextColor.BLUE.getCode() + ++i + TextColor.reset() + ": ");
                 System.out.println(mail.shortForm());
