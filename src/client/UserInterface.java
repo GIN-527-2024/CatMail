@@ -2,6 +2,8 @@ package client;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import server.MailServer;
 import usable.Account;
 import usable.Mail;
@@ -85,7 +87,6 @@ public class UserInterface {
         if (!success) {
             printColored(TextColor.RED_UNDERLINED,"Incorrect account");
 
-            return;
         } else {
             printColored(TextColor.GREEN,"User " + regEmail + " logged in successfully.");
             pause();
@@ -179,8 +180,21 @@ public class UserInterface {
                     break;
                 }
             }
+            scanner.nextLine(); //to read any extra values from before
             printColored(TextColor.YELLOW,"To: ");
-            to = scanner.next();
+            to = scanner.nextLine();
+            to =to.split(" ")[0];
+            if(!isValidEmail(to)){
+                printColored(TextColor.RED,"Invalid email address format");
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                }
+                
+                break;
+            }
+            
 
             email.setTo(to);
             break;
@@ -427,7 +441,15 @@ public class UserInterface {
                         "\033[38;5;28m___\\|//\033[38;5;130m   \033[38;5;28m||//_\\V/_\\|//_______\\\\\\|//V/\\\\\\|/__\033[0m";
         System.out.println(result);
     }
-
+    public static boolean isValidEmail(String email) {
+        if (email == null || email.isBlank()) {
+            return false; // Null or blank email is considered invalid
+        }
+        String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(EMAIL_REGEX);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
 
 
 

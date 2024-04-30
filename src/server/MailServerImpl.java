@@ -26,7 +26,7 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
         try {
             File serverdir = new File(SERVER_DIRECTORY);
 
-            boolean b= serverdir.mkdir();
+            serverdir.mkdir();
         } catch (Exception e) {
             System.out.println("Error creating initial files: " + e.getMessage());
         }
