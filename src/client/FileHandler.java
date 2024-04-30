@@ -29,7 +29,12 @@ public class FileHandler {
     }
     // saveToOutbox and saveToInbox are given all the emails to rewrite the file.
     public static void saveInFile(Mail[] mails, String slashedPath) {
-        String outboxPath = USER_ACCOUNT_PATH + "/" + mails[0].getFrom() + slashedPath;
+        boolean isFrom = slashedPath.equals(OUTBOX_PATH);
+
+        //in the case of saving in the draft, this scenario is same as saving in outbox as
+        //it is saved under the mail.getFrom()
+        String email = isFrom? mails[0].getFrom() : mails[0].getTo();
+        String outboxPath = USER_ACCOUNT_PATH + "/" + email + slashedPath;
         File file = new File(outboxPath);
         boolean append = file.exists();
 
@@ -40,8 +45,6 @@ public class FileHandler {
                 objectOut.writeObject(mail);
             }
 
-            objectOut.flush();
-            objectOut.close();
             System.out.println("Mails successfully saved in: " + outboxPath );
 
         } catch (IOException e) {

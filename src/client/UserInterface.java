@@ -311,7 +311,7 @@ public class UserInterface {
                 System.out.print(TextColor.BLUE.getCode() + ++i + TextColor.reset() + ": ");
                 System.out.println(mail.shortForm());
             }
-                System.out.println("Select mail to display, 0 to go back");
+                printColored(TextColor.YELLOW, "Select mail to display, 0 to go back");
             try{
                 input = scanner.nextInt();
             } catch (Exception e){
