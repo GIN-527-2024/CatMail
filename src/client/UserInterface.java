@@ -365,7 +365,6 @@ public class UserInterface {
 
         int input;
         while(true) {
-            Mail[] drafts = FileHandler.getDrafts(user.getEmail());
             int i = 0;
             System.out.println("drafts: ");
             for (Mail mail: drafts) {
