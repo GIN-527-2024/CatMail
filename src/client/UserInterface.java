@@ -1,5 +1,7 @@
 package client;
 
+import static client.FileHandler.DRAFT_PATH;
+import static client.FileHandler.INBOX_PATH;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -8,9 +10,6 @@ import server.MailServer;
 import usable.Account;
 import usable.Mail;
 import usable.TextColor;
-
-import static client.FileHandler.DRAFT_PATH;
-import static client.FileHandler.INBOX_PATH;
 import static usable.TextColor.printColored;
 
 public class UserInterface {
@@ -235,11 +234,11 @@ public class UserInterface {
         case 4:
             if( email.getTo().isBlank() || email.getSubject().isBlank()|| email.getText().isBlank()){
                 printColored(TextColor.RED,"Please fill all fields or save draft");
-
                 pause();
                 
                 break;
             }
+            sendEmail(user, email);
             lp = false;
             break;
        case 5:
@@ -254,7 +253,7 @@ public class UserInterface {
         }
         
         }
-        sendEmail(user, email);
+   
     
     }
     private  static void sendEmail(Account user,Mail email){
