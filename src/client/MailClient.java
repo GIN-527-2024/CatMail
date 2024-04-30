@@ -6,6 +6,9 @@ import java.rmi.registry.Registry;
 import java.sql.Timestamp;
 import server.MailServer;
 import usable.Account;
+
+import static client.FileHandler.INBOX_PATH;
+import static client.FileHandler.OUTBOX_PATH;
 import static usable.ErrorCodes.*;
 import usable.Mail;
 
@@ -78,8 +81,9 @@ public class MailClient {
     public static void sendEmailRemote(Mail mail) {
         try {
             if (mailServerProxy.send(mail) == NO_ERROR.getCode()) {
-                Mail[] toSave = {mail};
-                FileHandler.saveToOutbox(toSave);
+                    Mail[] toSave = new Mail[1];
+                    toSave[0] = mail;
+                FileHandler.saveInFile(toSave,OUTBOX_PATH);
                 System.out.println("Email sent successfully.");
                 return;
             }
@@ -113,7 +117,7 @@ public class MailClient {
 
     public static void refreshInbox(Account user) {
         try {
-            Mail[] inboxLocal = FileHandler.getInbox(user.getEmail());
+            Mail[] inboxLocal = FileHandler.getFromPath(user.getEmail(), INBOX_PATH);
             Timestamp newest = new Timestamp(0);
             if(inboxLocal.length != 0) {
                 newest = inboxLocal[inboxLocal.length - 1].getTimestamp();
@@ -127,7 +131,7 @@ public class MailClient {
             }
 
             // Call saveToInbox with the new emails
-            FileHandler.saveToInbox(inboxRemote);
+            FileHandler.saveInFile(inboxRemote, INBOX_PATH);
 
 
         } catch (Exception e) {
@@ -138,7 +142,7 @@ public class MailClient {
 
     public static void refreshOutbox(Account user) {
         try {
-            Mail[] outboxLocal = FileHandler.getOutbox(user.getEmail());
+            Mail[] outboxLocal = FileHandler.getFromPath(user.getEmail(), OUTBOX_PATH);
 
             Timestamp newest = new Timestamp(0);
             if(outboxLocal.length != 0) {
@@ -146,14 +150,14 @@ public class MailClient {
             }
 
 
-            Mail[] outboxRemote = mailServerProxy.RecievedEmail(user, newest);
+            Mail[] outboxRemote = mailServerProxy.SentEmail(user, newest);
             if(outboxRemote.length == 0) {
                 System.out.println("Outbox already up to date");
                 return;
             }
 
             // Call saveToInbox with the new emails
-            FileHandler.saveToOutbox(outboxRemote);
+            FileHandler.saveInFile(outboxRemote, OUTBOX_PATH);
 
 
         } catch (Exception e) {

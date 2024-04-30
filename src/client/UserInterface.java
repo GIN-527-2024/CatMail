@@ -6,6 +6,9 @@ import server.MailServer;
 import usable.Account;
 import usable.Mail;
 import usable.TextColor;
+
+import static client.FileHandler.DRAFT_PATH;
+import static client.FileHandler.INBOX_PATH;
 import static usable.TextColor.printColored;
 
 public class UserInterface {
@@ -166,6 +169,9 @@ public class UserInterface {
         }catch(Exception e){
             printColored(TextColor.RED_BOLD, "The input is invalid" +
                     "\nPlease try again...");
+            pause();
+            //to remove any invalid inputs
+            scanner.nextLine();
 
             option = 0; //any value so that the default case is catched
         }
@@ -228,7 +234,9 @@ public class UserInterface {
             return;
 
             case 6:
-                FileHandler.saveToDrafts(email);
+                Mail[] emailArray = new Mail[0];
+                emailArray[0] = email;
+                FileHandler.saveInFile(emailArray, FileHandler.DRAFT_PATH);
                 return;
 
             default:
@@ -261,7 +269,9 @@ public class UserInterface {
                 MailClient.sendEmailRemote(email);
                 printColored(TextColor.GREEN, "The email has been sent successfully");
             }else if(input==2){
-                FileHandler.saveToDrafts(email);
+                Mail[] mailArray = new Mail[0];
+                mailArray[0] = email;
+                FileHandler.saveInFile(mailArray, FileHandler.DRAFT_PATH);
 
                 printColored(TextColor.GREEN, "The email has been saved successfully");
             }else {
@@ -279,7 +289,7 @@ public class UserInterface {
             int input;
             printColored(TextColor.GREEN, "Inbox: ");
             MailClient.refreshInbox(user);
-            Mail[] inbox = FileHandler.getInbox(user.getEmail());
+            Mail[] inbox = FileHandler.getFromPath(user.getEmail(), INBOX_PATH);
             if(inbox.length == 0) {
                 printColored(TextColor.YELLOW,"Inbox empty, 0 to go back");
             }
@@ -311,7 +321,7 @@ public class UserInterface {
             int input;
             printColored(TextColor.GREEN, "outbox: ");
             MailClient.refreshOutbox(user);
-            Mail[] outbox = FileHandler.getInbox(user.getEmail());
+            Mail[] outbox = FileHandler.getFromPath(user.getEmail(), FileHandler.OUTBOX_PATH);
             if(outbox.length == 0) {
                 printColored(TextColor.YELLOW,"Outbox empty. 0 to go back");
             }
@@ -337,7 +347,7 @@ public class UserInterface {
 
     private static void draftsInterface(Account user) {
         clearConsole();
-        Mail[] drafts = FileHandler.getDrafts(user.getEmail());
+        Mail[] drafts = FileHandler.getFromPath(user.getEmail(), DRAFT_PATH);
         int input;
         while(true) {
             int i = 0;
