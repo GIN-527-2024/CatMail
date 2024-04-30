@@ -242,7 +242,6 @@ public class UserInterface {
             lp = false;
             break;
        case 5:
-            loggedInInterface(user);
             return;
 
 
