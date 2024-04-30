@@ -194,7 +194,6 @@ public class MailServerImpl extends UnicastRemoteObject implements MailServer {
 
     private <T> void saveInFile(String path,T object) throws IOException {
 
-        if(object instanceof Mail) ((Mail) object).setTimestamp(System.currentTimeMillis());
 
         File file = new File(path);
         boolean append = file.exists();

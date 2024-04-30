@@ -41,6 +41,7 @@ public class FileHandler {
             }
 
             objectOut.flush();
+            objectOut.close();
             System.out.println("Mails successfully saved in: " + outboxPath );
 
         } catch (IOException e) {
@@ -74,7 +75,8 @@ public class FileHandler {
             }
 
         } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Error occurred while reading Inbox: " + e.getMessage());
+            System.err.println("Error occurred while reading from: " + inboxPath);
+            e.printStackTrace();
         }
 
         // Convert the list of mails to an array and return

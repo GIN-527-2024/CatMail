@@ -308,7 +308,7 @@ public class UserInterface {
                 printColored(TextColor.YELLOW,"Inbox empty, 0 to go back");
             }
             for (Mail mail: inbox) {
-                System.out.print(++i + ": ");
+                System.out.print(TextColor.BLUE.getCode() + ++i + TextColor.reset() + ": ");
                 System.out.println(mail.shortForm());
             }
                 System.out.println("Select mail to display, 0 to go back");
@@ -340,7 +340,7 @@ public class UserInterface {
                 printColored(TextColor.YELLOW,"Outbox empty. 0 to go back");
             }
             for (Mail mail: outbox) {
-                System.out.print(++i + ": ");
+                System.out.print(TextColor.BLUE.getCode() + ++i + TextColor.reset() + ": ");
                 System.out.println(mail.shortForm());
             }
             printColored(TextColor.YELLOW,"Select mail to display, 0 to go back");
@@ -368,7 +368,7 @@ public class UserInterface {
             int i = 0;
             System.out.println("drafts: ");
             for (Mail mail: drafts) {
-                System.out.print(++i + ": ");
+                System.out.print(TextColor.BLUE.getCode() + ++i + TextColor.reset() + ": ");
                 System.out.println(mail.shortForm());
             }
             printColored(TextColor.YELLOW,"Select draft to edit, 0 to go back");
