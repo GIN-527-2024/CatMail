@@ -1,7 +1,5 @@
 package server;
 
-import usable.TextColor;
-
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -10,6 +8,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Enumeration;
+import usable.TextColor;
 
 public class RegistryServer {
     public static void main(String[] args) {
@@ -29,7 +28,6 @@ public class RegistryServer {
 
             System.out.println("The system is up");
             printPrivateIP();
-
             //reset the color to white
             System.out.println(TextColor.reset());
         } catch (RemoteException e) {
