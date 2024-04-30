@@ -157,7 +157,7 @@ public class UserInterface {
             printColored(TextColor.YELLOW, "3- Text: "  + TextColor.CYAN.getCode()
                     + (email.getText()
                     .split("\n")[0] == null ? "" : email.getText()
-                    .split("\n")[0]  + "..."));
+                    .split("\n")[0] ));
             printColored(TextColor.YELLOW,"4- Done composing");
             printColored(TextColor.YELLOW, "5- Discard");
             printColored(TextColor.YELLOW,"6- save draft");
@@ -248,7 +248,7 @@ public class UserInterface {
             return;
 
             case 6:
-                Mail[] emailArray = new Mail[0];
+                Mail[] emailArray = new Mail[1];
                 emailArray[0] = email;
                 FileHandler.saveInFile(emailArray, FileHandler.DRAFT_PATH);
                 return;
@@ -283,7 +283,7 @@ public class UserInterface {
                 MailClient.sendEmailRemote(email);
                 printColored(TextColor.GREEN, "The email has been sent successfully");
             }else if(input==2){
-                Mail[] mailArray = new Mail[0];
+                Mail[] mailArray = new Mail[1];
                 mailArray[0] = email;
                 FileHandler.saveInFile(mailArray, FileHandler.DRAFT_PATH);
 
