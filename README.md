@@ -9,7 +9,7 @@ This project is buiilt using Java RMI :
 * Object Oriented approach
 
 ## How to install this project and execute 
-Clone this project to your github repo .\n
-To execute the server you need to run the RegistryServer class .
-To execute the client you need to run the DistributedClient class.
-Make sure to build the whole project using eclipse,maven,gradle or anything else
+Clone this project to your github repo .<br/>
+To execute the server you need to run the RegistryServer class .<br/>
+To execute the client you need to run the DistributedClient class.<br/>
+Make sure to build the whole project using eclipse,maven,gradle or anything else<br/>
