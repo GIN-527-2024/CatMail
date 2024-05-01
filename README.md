@@ -7,6 +7,7 @@ This project is buiilt using Java RMI :
 * Uses java Serializable interface to store object : Mails , Accounts .
 * AppendableObject streams were sed to be able to add many object in the same ser file
 * Object Oriented approach
+* Basic operations include: Sending ,receiving emails  and saving drafts for clients.
 
 ## How to install this project and execute 
 Clone this project to your github repo .<br/>
