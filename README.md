@@ -13,3 +13,5 @@ Clone this project to your github repo .<br/>
 To execute the server you need to run the **RegistryServer** class .<br/>
 To execute the client you need to run the **DistributedClient** class.<br/>
 Make sure to build the whole project using eclipse,maven,gradle or anything else<br/>
+Client data in the client side are stored in the Client_data folder which will be created if not available in the same directory of the client <br/>
+Server data are stored in the Server_Data folder which will be created if doesn't exist in the same folder of the server <br/>
